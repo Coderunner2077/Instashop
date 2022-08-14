@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.products-heading {
+    @apply my-10 mx-0 text-center text-sky-800;
+}
+
+.products-heading h2 {
+    @apply text-4xl font-extrabold;
+}
+
+.products-heading p {
+    @apply font-extralight text-base;
+}
+
+.products-container {
+    @apply flex flex-wrap justify-center mt-5 w-full gap-4;
+}
