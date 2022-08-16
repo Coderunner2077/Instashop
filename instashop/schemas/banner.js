@@ -9,47 +9,42 @@ export default {
             type: 'image',
             options: {
                 hotspot: true,
-            },
+            }
         },
         {
             name: 'buttonText',
             title: 'ButtonText',
-            type: 'string',
+            type: 'string'
         },
         {
             name: 'product',
             title: 'Product',
-            type: 'string',
+            type: 'string'
         },
         {
             name: 'desc',
             title: 'Desc',
-            type: 'string',
+            type: 'string'
         },
         {
             name: 'smallText',
             title: 'SmallText',
-            type: 'string',
+            type: 'string'
         },
         {
             name: 'midText',
             title: 'MidText',
-            type: 'string',
+            type: 'string'
         },
         {
-            name: 'largeText1',
-            title: 'LargeText1',
-            type: 'string',
-        },
-        {
-            name: 'largeText2',
-            title: 'LargeText2',
-            type: 'string',
+            name: 'largeText',
+            title: 'LargeText',
+            type: 'string'
         },
         {
             name: 'discount',
             title: 'Discount',
-            type: 'string',
+            type: 'string'
         },
         {
             name: 'saleTime',

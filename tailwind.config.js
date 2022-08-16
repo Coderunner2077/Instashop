@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./pages/**/*.{js,ts,jsx,tsx}', './pages/*.{js,ts,jsx,tsx}'],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './pages/*.{js,ts,jsx,tsx}', './components/*.{js,ts,jsx,tsx}'],
   theme: {
     fontSize: {
       xs: '0.75rem',
@@ -39,6 +39,18 @@ module.exports = {
           900: '#2a4365',
         },
       },
+      height: {
+        banner: "500px"
+      },
+      zIndex: {
+        10000: 10000
+      },
+      fontSize: {
+        "9xl": "8rem"
+      },
+      spacing: {
+        "1/5": "20%"
+      }
     },
   },
   plugins: [],
