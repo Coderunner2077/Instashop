@@ -16,7 +16,7 @@ export default function Home({ products, bannerData }) {
         {products.map(product => <div key={product._id}><Product product={product} /></div>)}
       </div>
 
-      <FooterBanner />
+      <FooterBanner bannerData={bannerData.length && bannerData[0]} />
     </>
   )
 }

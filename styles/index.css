@@ -29,3 +29,7 @@
 .desc {
     @apply absolute w-72 leading-snug flex flex-col text-sky-700;
 }
+
+.footer-banner-container {
+    @apply py-24 px-10 bg-red-500 rounded-2xl relative h-96 leading-none text-white w-full mt-32 md:h-[560px] md:mt-20;
+}

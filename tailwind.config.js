@@ -46,6 +46,7 @@ module.exports = {
         10000: 10000
       },
       fontSize: {
+        "7xl": "80px",
         "9xl": "8rem"
       },
       spacing: {
