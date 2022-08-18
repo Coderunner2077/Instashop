@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .products-heading {
     @apply my-10 mx-0 text-center text-sky-800;
 }
@@ -32,4 +40,33 @@
 
 .footer-banner-container {
     @apply py-24 px-10 bg-red-500 rounded-2xl relative h-96 leading-none text-white w-full mt-32 md:h-[560px] md:mt-20;
+}
+
+.flex-x {
+    @apply flex flex-row justify-center items-center;
+}
+
+.flex-y {
+    @apply flex flex-row items-center justify-center;
+}
+
+.navbar {
+    @apply flex flex-row justify-between items-center
+    w-full h-16 m-0 px-4 py-2;
+}
+
+.cart-icon {
+    @apply bg-gray-100 text-gray-700 p-2 rounded-full transition-all duration-300 w-12 h-12;
+}
+
+.cart-icon:hover {
+    @apply bg-blue-100 text-blue-800;
+}
+
+.badge-red {
+    @apply bg-red-600 rounded-full text-white;
+}
+
+.badge-red:hover {
+    @apply shadow;
 }
