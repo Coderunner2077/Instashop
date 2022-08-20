@@ -10,6 +10,20 @@
     padding: 0;
 }
 
+.active-img {
+    background: rgb(150, 13, 36);
+    border-radius: 0 50% 50% 50%;
+    transform: rotate(45deg);
+}
+
+.active-img img {
+    position: absolute;
+    transform: rotate(-405deg);
+    top: 0;
+    left: 2px;
+    scale: 1.1;
+}
+
 .products-heading {
     @apply my-10 mx-0 text-center text-sky-800;
 }
