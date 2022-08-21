@@ -24,6 +24,14 @@
     scale: 1.1;
 }
 
+.paused {
+    animation-play-state: paused;
+}
+
+.running {
+    animation-play-state: running;
+}
+
 .products-heading {
     @apply my-10 mx-0 text-center text-sky-800;
 }
@@ -83,4 +91,8 @@
 
 .badge-red:hover {
     @apply shadow;
+}
+
+.carousel-chevron {
+    @apply text-gray-600 font-extrabold opacity-80 w-10 relative h-[420px];
 }

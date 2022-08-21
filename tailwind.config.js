@@ -51,6 +51,20 @@ module.exports = {
       },
       spacing: {
         "1/5": "20%"
+      },
+      keyframes: {
+        'carousel-right': {
+          '0%': { transform: 'translateX(103%)' },
+          '100%': { transform: 'translateX(-146%)' },
+        },
+        'carousel-left': {
+          '0%': { transform: 'translateX(-146%)' },
+          '100%': { transform: 'translateX(103%)' },
+        },
+      },
+      animation: {
+        'carousel-right': 'carousel-right 30s linear',
+        'carousel-left': 'carousel-left 30s linear',
       }
     },
   },
