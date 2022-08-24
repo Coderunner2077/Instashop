@@ -54,17 +54,47 @@ module.exports = {
       },
       keyframes: {
         'carousel-right': {
+          '0%': { transform: 'translateX(400%)' },
+          '100%': { transform: 'translateX(-400%)' },
+        },
+        'carousel-left': {
+          '0%': { transform: 'translateX(-400%)' },
+          '100%': { transform: 'translateX(400%)' },
+        },
+        'sm-carousel-right': {
+          '0%': { transform: 'translateX(300%)' },
+          '100%': { transform: 'translateX(-280%)' },
+        },
+        'sm-carousel-left': {
+          '0%': { transform: 'translateX(-300%)' },
+          '100%': { transform: 'translateX(300%)' },
+        },
+        'md-carousel-right': {
+          '0%': { transform: 'translateX(160%)' },
+          '100%': { transform: 'translateX(-200%)' },
+        },
+        'md-carousel-left': {
+          '0%': { transform: 'translateX(-200%)' },
+          '100%': { transform: 'translateX(160%)' },
+        },
+        'lg-carousel-right': {
           '0%': { transform: 'translateX(103%)' },
           '100%': { transform: 'translateX(-146%)' },
         },
-        'carousel-left': {
+        'lg-carousel-left': {
           '0%': { transform: 'translateX(-146%)' },
           '100%': { transform: 'translateX(103%)' },
-        },
+        }
       },
       animation: {
-        'carousel-right': 'carousel-right 30s linear',
-        'carousel-left': 'carousel-left 30s linear',
+        'carousel-right': 'carousel-right 30s linear infinite',
+        'carousel-left': 'carousel-left 30s linear infinite',
+        'sm-carousel-right': 'sm-carousel-right 30s linear infinite',
+        'sm-carousel-left': 'sm-carousel-left 30s linear infinite',
+        'md-carousel-right': 'md-carousel-right 30s linear infinite',
+        'md-carousel-left': 'md-carousel-left 30s linear infinite',
+        'lg-carousel-right': 'lg-carousel-right 30s linear infinite',
+        'lg-carousel-left': 'lg-carousel-left 30s linear infinite'
       }
     },
   },

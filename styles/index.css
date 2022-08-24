@@ -10,20 +10,6 @@
     padding: 0;
 }
 
-.active-img {
-    background: rgb(150, 13, 36);
-    border-radius: 0 50% 50% 50%;
-    transform: rotate(45deg);
-}
-
-.active-img img {
-    position: absolute;
-    transform: rotate(-405deg);
-    top: 0;
-    left: 2px;
-    scale: 1.1;
-}
-
 .paused {
     animation-play-state: paused;
 }
@@ -96,3 +82,12 @@
 .carousel-chevron {
     @apply text-gray-600 font-extrabold opacity-80 w-10 relative h-[420px];
 }
+
+.active-img {
+    @apply bg-red-900 rounded-[50%] rounded-tl-none rotate-45;
+}
+
+.active-img img {
+    @apply absolute top-0 left-0.5 scale-110 rotate-[-405deg];
+}
+

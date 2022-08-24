@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Image } from "next/image";
 import { AiOutlineStar, AiOutlinePlus, AiOutlineMinus, AiFillStar } from "react-icons/ai";
 import { Product } from "../../components";
@@ -7,30 +7,31 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { InView } from "react-intersection-observer";
 
 const ProductDetails = ({ products, product }) => {
-    const [animation, setAnimation] = useState("animate-carousel-right");
-    const [isStopped, setIsStopped] = useState(false)
+    const [animation, setAnimation] = useState("animate-carousel-right sm:animate-sm-carousel-right md:animate-md-carousel-right lg:animate-lg-carousel-right");
     const { image, name, details, price } = product;
     const [index, setIndex] = useState(0);
-    console.log("products", products);
+    const trackRef = useRef(null);
 
     const onHoverImage = (index) => {
         setIndex(index);
     }
 
-    const stopCarousel = () => {
-        setIsStopped(true);
-    }
+    const stopCarousel = useCallback(() => {
+        if (!trackRef || !trackRef.current) return;
+        trackRef.current.style.animationPlayState = "paused";
+    }, [trackRef]);
 
-    const startCarousel = () => {
-        setIsStopped(false);
-    }
+    const startCarousel = useCallback(() => {
+        if (!trackRef || !trackRef.current) return;
+        trackRef.current.style.animationPlayState = "running";
+    }, [trackRef]);
 
     const slideRight = () => {
-        setAnimation("animate-carousel-right");
+        setAnimation("animate-carousel-right sm:animate-sm-carousel-right md:animate-md-carousel-right lg:animate-lg-carousel-right");
     }
 
     const slideLeft = () => {
-        setAnimation("animate-carousel-left");
+        setAnimation("animate-carousel-left sm:animate-sm-carousel-left md:animate-md-carousel-left lg:animate-lg-carousel-left");
     }
 
     return (
@@ -86,7 +87,7 @@ const ProductDetails = ({ products, product }) => {
                 </div>
             </div>
             <div className="flex-y gap-10 mt-24">
-                <h2 className="text-2xl font-extrabold text-blue-900">
+                <h2 id="carousel-h2" className="text-2xl font-extrabold text-blue-900 w-full text-center">
                     Similar products
                 </h2>
                 <div className="w-full flex-x gap-2">
@@ -94,11 +95,11 @@ const ProductDetails = ({ products, product }) => {
                         <BsChevronCompactLeft size="40px" className="relative top-32" />
                     </div>
                     <div className="marquee h-[440px] w-[90%] overflow-x-hidden relative">
-                        <div className={`track flex justify-center gap-6 mt-5 w-[180%] whitespace-nowrap ${animation} ${isStopped ? "paused" : "running"}`} onMouseEnter={stopCarousel} onMouseLeave={startCarousel}>
+                        <div ref={trackRef} id="tracker" className={`absolute track flex justify-center gap-6 mt-5 w-[180%] whitespace-nowrap ${animation}`} onMouseEnter={stopCarousel} onMouseLeave={startCarousel}>
                             {products.map((item, i) => {
                                 if (i === 0 || i === (products.length - 1)) return (
                                     <InView key={item._id} as="div" onChange={() => i === 0 ? slideRight() : slideLeft()} trackVisibility={true} delay={100} threshold={0.9} initialInView={i == 0}>
-                                        <Product product={item} />
+                                        <Product product={item} id={`product-${i}`} />
                                     </InView>
                                 )
                                 return (
@@ -107,7 +108,7 @@ const ProductDetails = ({ products, product }) => {
                             })}
                         </div>
                     </div>
-                    <div className="carousel-chevron" onMouseEnter={slideRight}>
+                    <div className="carousel-chevron" onMouseEnter={slideRight} >
                         <BsChevronCompactRight size="40px" className="relative top-32" />
                     </div>
                 </div>
