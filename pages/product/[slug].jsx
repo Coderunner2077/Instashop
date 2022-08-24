@@ -39,12 +39,12 @@ const ProductDetails = ({ products, product }) => {
             <div className="flex justify-around gap-3 w-full h-fit flex-col items-center md:items-start md:flex-row ">
                 <div className="md:w-1/2 md:h-2/3 lg:h-1/2 flex flex-col items-center justify-start">
                     <div className="w-full h-3/4 flex-x">
-                        <img src={urlFor(image && image[index])} className="w-[300px] h-[300px] md:w-[500px] md:h-[500px] object-contain" />
+                        <img src={image && image[index] ? urlFor(image[index]) : ""} className="w-[300px] h-[300px] md:w-[500px] md:h-[500px] object-contain" alt="product" />
                     </div>
                     <div className="w-full h-1/4 flex gap-2 p-5 md:p-6 flex-x">
                         {image?.map((item, i) => (
                             <div key={`thumbnail-${i}`} className={`${i === index ? "active-img" : "border-transparent"} border w-10 h-10 sm:w-14 sm:h-14 lg:w-20 lg:h-20 relative`}>
-                                <img src={urlFor(item)} className={`w-10 h-10 lg:w-20 sm:w-14 sm:h-14 lg:h-20 object-cover rounded-xl border ${i == index ? "transition-all duration-300 border-red-500" : "transition-none border-gray-800"}`} onMouseEnter={() => onHoverImage(i)} key={`image-${i}`} />
+                                <img src={item ? urlFor(item) : ""} alt="Thumbnail" className={`w-10 h-10 lg:w-20 sm:w-14 sm:h-14 lg:h-20 object-cover rounded-xl border ${i == index ? "transition-all duration-300 border-red-500" : "transition-none border-gray-800"}`} onMouseEnter={() => onHoverImage(i)} key={`image-${i}`} />
                             </div>
                         ))}
                     </div>
