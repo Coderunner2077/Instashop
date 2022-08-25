@@ -13,13 +13,13 @@ const CartIcon = ({ icon, to, counter = 0, onClick }) => {
         <React.Fragment>
             <div className="flex-x">
                 <Icon className="cart-icon flex-x cursor-pointer">{icon}</Icon>
-                <div className="w-8 h-10 bg-gray-500">
+                <div className="w-8 h-10 bg-gray-500 flex-x">
                     {counter > 0 && (
                         <span className={`inline-block badge-red px-2 rounded-full text-xs cursor-pointer`}>
                             {counter < 100 ? count : "99+"}
                         </span>
                     )}
-                    {counter < 1 && <div className="w-8 h-8 px-8 py-2 text-white cursor-default opacity-0 select-none">000</div>}
+                    {counter < 1 && <div className="inline-block px-2 rounded-full text-xs text-white cursor-default opacity-0 select-none">1</div>}
                 </div>
             </div>
         </React.Fragment>

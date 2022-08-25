@@ -16,7 +16,7 @@ const IconButton = (props) => {
     return (
         <button className={`${className} ${position} ${pm} ${color} group`} onClick={onClick}>
             {icon}
-            <span className={`popup group-hover:scale-100 ${left} ${top} sm:top-auto sm:left-10`}>{children}</span>
+            <span className={`popup group-hover:scale-100 ${left} ${top}`}>{children}</span>
         </button>
     );
 };

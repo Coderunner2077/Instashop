@@ -8,6 +8,7 @@ import '../styles/index.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+
   return (
     <StoreProvider store={store}>
       <Layout>

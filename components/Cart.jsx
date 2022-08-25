@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { AiOutlineShopping, AiOutlineMinus, AiOutlinePlus, AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineShopping, AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineDelete } from 'react-icons/ai';
 import { useSelector, useDispatch } from "react-redux";
-import { toggleCart, toggleCartItemQty, removeFromCart } from "../store/actions";
+import { addAlert, toggleCart, toggleCartItemQty, removeFromCart, emptyCart } from "../store/actions";
 
 import { urlFor } from '../lib/client';
 //import getStripe from '../lib/stripe';
@@ -38,17 +38,31 @@ const Cart = () => {
         dispatch(toggleCart(false))
     }
 
+    const handleEmpty = () => {
+        dispatch(addAlert({ type: "success", message: `Cart has been successfully emptied ` }));
+        dispatch(emptyCart())
+    }
+
     return (
         <div id="cart-container" className="w-screen bg-black bg-opacity-50 fixed right-0 top-0 z-100 will-change-transform transition-all duration-1000 ease-in-out" onClick={onBgClick}>
-            <div className="w-[420px] py-1 px-2 md:w-[600px] md:px-5 md:py-2.5 h-screen bg-white float-right relative ">
-                <button
-                    type="button"
-                    className="mt-9 md:mt-0 flex items-center text-lg font-medium cursor-pointer gap-0.5 ml-4 border-none bg-transparent"
-                    onClick={() => dispatch(toggleCart(false))}>
-                    <AiOutlineLeft />
-                    <span className="mx-2.5">Your Cart</span>
-                    <span className="text-red-600">({totalQuantity} items)</span>
-                </button>
+            <div className="w-full sm:w-[420px] py-1 px-2 md:w-[600px] md:px-5 md:py-2.5 h-screen bg-white float-right relative ">
+                <div className="flex gap-2 items-center">
+                    <button
+                        type="button"
+                        className="flex items-center text-lg font-medium cursor-pointer gap-0.5 ml-4 border-none bg-transparent"
+                        onClick={() => dispatch(toggleCart(false))}>
+                        <AiOutlineLeft />
+                        <span className="mx-2.5">Your Cart</span>
+                        <span className="text-red-600">({totalQuantity} items)</span>
+                    </button>
+                    {totalQuantity > 0 && (
+                        <button className={`relative mx-1 p-2 group rounded-full hover:scale-110 transition-all btn-red-outline font-semidold`} onClick={handleEmpty}>
+                            <AiOutlineDelete size={18} />
+                            <div className={`popup hidden sm:inline-block scale-0 left-10 group-hover:scale-100 -top-2`}>Empty Cart</div>
+                        </button>
+                    )}
+                </div>
+
 
                 {cartItems.length < 1 && (
                     <div className="m-10 flex-y">
@@ -107,7 +121,7 @@ const Cart = () => {
                             <h3 className="text-xl my-2">Subtotal:</h3>
                             <h3 className="text-xl">${totalPrice.toFixed(2)}</h3>
                         </div>
-                        <div className="w-[300px] m-auto md:w-[400px] md:">
+                        <div className="text-center">
                             <button type="button" className="btn btn-red" onClick={handleCheckout}>
                                 Pay with Stripe
                             </button>

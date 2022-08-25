@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from "next/router";
 import { CartIcon } from "./UI";
 import { IoMdCart } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleCart } from "../store/actions";
+import { toggleCart, setCart } from "../store/actions";
 import { Cart } from ".";
 
 import logo from '../assets/easyshop.png';
 
 const Navbar = () => {
     const router = useRouter();
-    const { totalQuantity, showCart } = useSelector(state => state.cart);
+    const { totalQuantity, showCart, cartItems } = useSelector(state => state.cart);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && JSON.parse(localStorage.getItem("insta-cart") !== null))
+            dispatch(setCart(JSON.parse(localStorage.getItem("insta-cart"))));
+    }, []);
 
     return (
         <div className="bg-inherit w-screen border-b border-black border-opacity-10 navbar">

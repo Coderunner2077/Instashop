@@ -18,11 +18,10 @@ const AlertMessage = ({ type, message, animation, onMouseMove, onCloseClick, cla
                 {message}
             </div>
             {onCloseClick && (
-                <IconButton icon={<ImCross size={13} />} onClick={onCloseClick} color="btn-close"
-                    top="-top-12" left=""
-                >
-                    Close
-                </IconButton>
+                <button className={`relative mx-1 p-2 group rounded-full transition-all btn-close font-semidold`} onClick={onCloseClick}>
+                    <ImCross size={13} />
+                    <div className={`popup hidden sm:inline-block scale-0 left-10 group-hover:scale-100 -top-2`}>Close</div>
+                </button>
             )}
         </div>
     );

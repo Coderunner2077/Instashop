@@ -17,8 +17,14 @@ const ProductDetails = ({ products, product }) => {
     const dispatch = useDispatch();
 
     const buyNow = () => {
-        addToCart(product, qty);
+        dispatch(addToCart({ product, quantity: qty }));
         dispatch(toggleCart(true));
+        dispatch(addAlert({ type: "success", message: `${qty} ${product.name} added to cart` }));
+    }
+
+    const handleAdd = () => {
+        dispatch(addAlert({ type: "success", message: `${qty} ${product.name} added to cart` }));
+        dispatch(addToCart({ product, quantity: qty }));
     }
     const onHoverImage = (index) => {
         setIndex(index);
@@ -85,7 +91,7 @@ const ProductDetails = ({ products, product }) => {
                         </p>
                     </div>
                     <div className="flex gap-3 mt-3">
-                        <button type="button" className="btn btn-red-outline" onClick={() => dispatch(addToCart({ product, quantity: qty }))}>
+                        <button type="button" className="btn btn-red-outline" onClick={handleAdd}>
                             Add to Cart
                         </button>
                         <button type="button" className="btn btn-red" onClick={buyNow}>
