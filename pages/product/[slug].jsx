@@ -1,16 +1,19 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Image } from "next/image";
 import { AiOutlineStar, AiOutlinePlus, AiOutlineMinus, AiFillStar } from "react-icons/ai";
-import { Product } from "../../components";
-import { client, urlFor } from "../../lib/client";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { InView } from "react-intersection-observer";
+import { Product } from "../../components";
+import { client, urlFor } from "../../lib/client";
+import { useSelector, useDispatch } from "react-redux";
+import { addAlert } from "../../store/actions";
+
 
 const ProductDetails = ({ products, product }) => {
     const [animation, setAnimation] = useState("animate-carousel-right sm:animate-sm-carousel-right md:animate-md-carousel-right lg:animate-lg-carousel-right");
     const { image, name, details, price } = product;
     const [index, setIndex] = useState(0);
     const trackRef = useRef(null);
+    const dispatch = useDispatch();
 
     const onHoverImage = (index) => {
         setIndex(index);

@@ -43,7 +43,9 @@ module.exports = {
         banner: "500px"
       },
       zIndex: {
-        10000: 10000
+        "100": 100,
+        "1050": 1050,
+        "10000": 1000
       },
       fontSize: {
         "7xl": "80px",
@@ -84,7 +86,19 @@ module.exports = {
         'lg-carousel-left': {
           '0%': { transform: 'translateX(-146%)' },
           '100%': { transform: 'translateX(103%)' },
-        }
+        },
+        "alert-in": {
+          "0%": { opacity: 0, transform: "translateY(-15px)" },
+          "12%": { opacity: 0.9, transform: "translateY(0)" },
+          "88%": { opacity: 0.9, transform: "translateY(0)" },
+          "100%": { opacity: 0, transform: "translateY(-15px)" }
+        },
+        "alert-out": {
+          "0%": { opacity: 1, transform: "translateY(0)" },
+          //"12%": { opacity: 1, transform: "translateY(0)" },
+          "88%": { opacity: 1, transform: "translateY(0)" },
+          "100%": { opacity: 0, transform: "translateY(-15px)" }
+        },
       },
       animation: {
         'carousel-right': 'carousel-right 30s linear infinite',
@@ -94,7 +108,9 @@ module.exports = {
         'md-carousel-right': 'md-carousel-right 30s linear infinite',
         'md-carousel-left': 'md-carousel-left 30s linear infinite',
         'lg-carousel-right': 'lg-carousel-right 30s linear infinite',
-        'lg-carousel-left': 'lg-carousel-left 30s linear infinite'
+        'lg-carousel-left': 'lg-carousel-left 30s linear infinite',
+        "alert-in": "alert-in 3.9s ease-out",
+        "alert-out": "alert-out 2.7s ease-out",
       }
     },
   },

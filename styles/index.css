@@ -91,3 +91,33 @@
     @apply absolute top-0 left-0.5 scale-110 rotate-[-405deg];
 }
 
+.btn-white {
+    @apply bg-white text-blue-900 hover:bg-blue-800 hover:text-white;
+}
+
+.btn-icon {
+    @apply flex items-center justify-center shadow-md rounded-3xl hover:rounded-xl transition-all
+        duration-200 ease-linear cursor-pointer focus:outline-none
+}
+
+.btn-close {
+    @apply bg-transparent shadow-none hover:font-semibold hover:scale-110;
+}
+
+.popup {
+    @apply absolute w-auto p-2 m-2 min-w-max rounded-md shadow-md text-white bg-gray-900 text-xs
+        font-semibold transition-all duration-100 transform scale-0 origin-left z-50;
+}
+
+.alert {
+    @apply flex items-start sm:items-center justify-between p-1 sm:p-4 rounded-3xl transition-all duration-200 pointer-events-auto;
+}
+
+.alert-success {
+    @apply border border-green-400 bg-green-300 text-green-900;
+}
+
+.alert-danger {
+    @apply border border-red-400 bg-red-300 text-red-900;
+}
+

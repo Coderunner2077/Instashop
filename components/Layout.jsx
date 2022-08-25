@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from "next/head";
-import { Navbar, Footer } from ".";
+import { Navbar, Footer, Alert } from ".";
 
 const Layout = ({ children }) => {
     return (
@@ -8,6 +8,7 @@ const Layout = ({ children }) => {
             <Head>
                 <title>Instashop</title>
             </Head>
+            <Alert />
             <header>
                 <Navbar totalItems={0} />
             </header>
