@@ -5,16 +5,21 @@ import { InView } from "react-intersection-observer";
 import { Product } from "../../components";
 import { client, urlFor } from "../../lib/client";
 import { useSelector, useDispatch } from "react-redux";
-import { addAlert } from "../../store/actions";
+import { addAlert, addToCart, toggleCart } from "../../store/actions";
 
 
 const ProductDetails = ({ products, product }) => {
     const [animation, setAnimation] = useState("animate-carousel-right sm:animate-sm-carousel-right md:animate-md-carousel-right lg:animate-lg-carousel-right");
     const { image, name, details, price } = product;
+    const [qty, setQty] = useState(1);
     const [index, setIndex] = useState(0);
     const trackRef = useRef(null);
     const dispatch = useDispatch();
 
+    const buyNow = () => {
+        addToCart(product, qty);
+        dispatch(toggleCart(true));
+    }
     const onHoverImage = (index) => {
         setIndex(index);
     }
@@ -68,22 +73,22 @@ const ProductDetails = ({ products, product }) => {
                     <div className="mt-1 flex items-center gap-6">
                         <h3 className="font-bold text-lg text-gray-800">Quantity:</h3>
                         <p className="border border-gray-800 rounded-3xl flex-x">
-                            <span onClick={() => { }} className="flex-x w-10 h-10 border-r border-gray-600 cursor-pointer">
+                            <span onClick={() => setQty(qty => qty > 1 ? qty - 1 : qty)} className="flex-x w-10 h-10 border-r border-gray-600 cursor-pointer">
                                 <AiOutlineMinus />
                             </span>
-                            <span className="flex-x w-10 h-10 border-r border-gray-600 cursor-default">
-                                0
+                            <span className="flex-x w-10 h-10 border-r border-gray-600 cursor-default select-none">
+                                {qty}
                             </span>
-                            <span onClick={() => { }} className="flex-x w-10 h-10 cursor-pointer">
+                            <span onClick={() => setQty(qty => qty + 1)} className="flex-x w-10 h-10 cursor-pointer">
                                 <AiOutlinePlus />
                             </span>
                         </p>
                     </div>
                     <div className="flex gap-3 mt-3">
-                        <button type="button" className="text-red-600 border-2 border-red-600 drop-shadow bg-white font-bold py-2 px-6 rounded-3xl text-center cursor-pointer hover:scale-110 hover:ring-2 hover:ring-red-300 transition-all duration-200">
+                        <button type="button" className="btn btn-red-outline" onClick={() => dispatch(addToCart({ product, quantity: qty }))}>
                             Add to Cart
                         </button>
-                        <button type="button" className="bg-red-600 text-white font-bold py-2 px-6 text-center drop-shadow cursor-pointer rounded-3xl hover:scale-110 hover:ring-2 hover:ring-red-300 transition-all duration-200">
+                        <button type="button" className="btn btn-red" onClick={buyNow}>
                             Buy Now
                         </button>
                     </div>

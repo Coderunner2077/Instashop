@@ -91,17 +91,45 @@
     @apply absolute top-0 left-0.5 scale-110 rotate-[-405deg];
 }
 
+.btn {
+    @apply select-none font-bold py-2 px-6 text-center drop-shadow cursor-pointer rounded-3xl transition-all duration-300 uppercase;
+}
+
+.btn:hover {
+    @apply  scale-110 ring-2
+}
+
+.btn-red-outline {
+    @apply text-red-600 border-red-600  bg-white border-2;
+}
+
+.btn-red-outline:hover, .btn-red:hover  {
+    @apply ring-red-300;
+}
+
+.btn-red {
+    @apply bg-red-600 text-white;
+}
+
 .btn-white {
-    @apply bg-white text-blue-900 hover:bg-blue-800 hover:text-white;
+    @apply bg-white text-blue-900 hover:bg-blue-800;
+}
+
+.btn-white:hover {
+    @apply text-white;
 }
 
 .btn-icon {
     @apply flex items-center justify-center shadow-md rounded-3xl hover:rounded-xl transition-all
-        duration-200 ease-linear cursor-pointer focus:outline-none
+        duration-200 ease-linear cursor-pointer focus:outline-none;
 }
 
 .btn-close {
-    @apply bg-transparent shadow-none hover:font-semibold hover:scale-110;
+    @apply bg-transparent shadow-none;
+}
+
+.btn-close:hover {
+    @apply font-semibold scale-110;
 }
 
 .popup {
@@ -121,3 +149,10 @@
     @apply border border-red-400 bg-red-300 text-red-900;
 }
 
+.item-desc-flex {
+    @apply flex w-[250px] justify-between md:w-[330px] text-sky-800;
+}
+
+.qty-desc {
+    @apply text-base py-1.5 px-3 cursor-pointer
+}

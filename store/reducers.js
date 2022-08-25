@@ -1,11 +1,10 @@
-import { createSlice, createAction, combineReducers, PayloadAction, nanoid } from "@reduxjs/toolkit";
+import { createSlice, combineReducers } from "@reduxjs/toolkit";
 
 const initialState = {
     showCart: false,
     cartItems: [],
     totalPrice: 0,
     totalQuantity: 0,
-    qty: 1,
     onAdd: () => { }
 }
 
@@ -16,14 +15,8 @@ export const cartSlice = createSlice({
         toggleCart: (state, action) => {
             state.showCart = action.payload;
         },
-        incQty: (state, action) => {
-            state.qty += 1;
-        },
-        decQty: (state, action) => {
-            state.qty = state.qty > 0 ? state.qty - 1 : 0;
-        },
         addToCart: (state, action) => {
-            const { cartItems, totalPrice, totalQuantity, onAdd } = state;
+            const { cartItems, onAdd } = state;
             const { product, quantity } = action.payload;
             state.totalPrice += (product.price * quantity);
             state.totalQuantity += quantity;
@@ -47,7 +40,7 @@ export const cartSlice = createSlice({
             const { cartItems } = state;
             const { id, value } = action.payload;
             const foundProduct = cartItems.find(item => item._id === id);
-            const filteredItems = cartItems.filter(iten => item._id !== id);
+            const filteredItems = cartItems.filter(item => item._id !== id);
 
             if (value === "inc") {
                 state.cartItems = [...filteredItems, { ...foundProduct, quantity: foundProduct.quantity + 1 }];

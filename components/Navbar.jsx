@@ -4,21 +4,26 @@ import Image from 'next/image';
 import { useRouter } from "next/router";
 import { CartIcon } from "./UI";
 import { IoMdCart } from "react-icons/io";
-import { IconContext } from 'react-icons/lib';
+import { useSelector, useDispatch } from "react-redux";
+import { toggleCart } from "../store/actions";
+import { Cart } from ".";
 
 import logo from '../assets/easyshop.png';
 
-const Navbar = ({ totalItems }) => {
+const Navbar = () => {
     const router = useRouter();
+    const { totalQuantity, showCart } = useSelector(state => state.cart);
+    const dispatch = useDispatch();
 
     return (
         <div className="bg-inherit w-screen border-b border-black border-opacity-10 navbar">
             <Title title="Instashop" logo={logo} />
-            {router.pathname === '/' && (
-                <div className="mr-2">
-                    <CartIcon to="/cart" icon={<IoMdCart size={40} />} counter={totalItems} />
-                </div>
-            )}
+
+            <div className="mr-2">
+                <CartIcon onClick={() => dispatch(toggleCart(true))} icon={<IoMdCart size={40} />} counter={totalQuantity} />
+            </div>
+
+            {showCart && <Cart />}
         </div>
     );
 };
