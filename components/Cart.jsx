@@ -25,8 +25,6 @@ const Cart = () => {
 
         const data = await response.json();
 
-        console.log("stripe data", data);
-
         dispatch(addAlert({ type: "warning", message: "Redirection to Stripe..." }));
 
         stripe.redirectToCheckout({ sessionId: data.id });
@@ -39,8 +37,7 @@ const Cart = () => {
     }
 
     const handleEmpty = () => {
-        dispatch(addAlert({ type: "warning", message: "Redirection to Stripe..." }));
-        //dispatch(addAlert({ type: "success", message: `Cart has been successfully emptied ` }));
+        dispatch(addAlert({ type: "success", message: `Cart has been successfully emptied ` }));
         dispatch(emptyCart())
     }
 

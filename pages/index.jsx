@@ -16,7 +16,7 @@ export default function Home({ products, bannerData }) {
     if (router.query.cancelled) {
       if (timerRef.current) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
-        dispatch(addAlert({ type: "success", message: "You've cancelled your purchase" }))
+        dispatch(addAlert({ type: "success", message: "You can come back to your cart any time" }))
       }, 1000);
     }
 

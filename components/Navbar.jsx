@@ -36,8 +36,8 @@ const Navbar = () => {
 const Title = (props) => (
     <h2 className="py-1 px-3 sm:px-3 mr-2 text-lg xs:text-2xl sm:text-3xl group">
         <Link href="/">
-            <div className="flex flex-grow items-center">
-                <div className="rounded-full bg-gray-100 group-hover:bg-blue-300 transition-all duration-300 flex-x p-0.5 mr-2"><Image src={props.logo} alt="Instashop" height={30} width={30} className="" /></div><span className="text-gray-700">{props.title}</span>
+            <div className="flex flex-grow items-center cursor-pointer">
+                <div className="rounded-full bg-gray-100 group-hover:bg-blue-300 transition-all duration-300 flex-x p-0.5 mr-2"><Image src={props.logo} alt="Instashop" height={30} width={30} className="" /></div><span className="text-gray-700 select-none">{props.title}</span>
             </div>
         </Link>
     </h2>
