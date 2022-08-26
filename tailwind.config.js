@@ -98,7 +98,7 @@ module.exports = {
           //"12%": { opacity: 1, transform: "translateY(0)" },
           "88%": { opacity: 1, transform: "translateY(0)" },
           "100%": { opacity: 0, transform: "translateY(-15px)" }
-        },
+        }
       },
       animation: {
         'carousel-right': 'carousel-right 30s linear infinite',

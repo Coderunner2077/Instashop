@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Product, FooterBanner, HeroBanner } from "../components";
+import { useRouter } from "next/router";
 import { client } from "../lib/client";
+import { useDispatch } from "react-redux";
+import { addAlert } from '../store/actions';
 
 export default function Home({ products, bannerData }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const timerRef = useRef(null);
+
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (router.query.cancelled) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        dispatch(addAlert({ type: "success", message: "You've cancelled your purchase" }))
+      }, 1000);
+    }
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    }
+
+  }, [router.isReady]);
   return (
     <>
       <HeroBanner bannerData={bannerData.length && bannerData[0]} />
