@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineShopping, AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineDelete } from 'react-icons/ai';
@@ -6,30 +6,30 @@ import { useSelector, useDispatch } from "react-redux";
 import { addAlert, toggleCart, toggleCartItemQty, removeFromCart, emptyCart } from "../store/actions";
 
 import { urlFor } from '../lib/client';
-//import getStripe from '../lib/stripe';
+import getStripe from '../lib/getStripe';
 
 const Cart = () => {
     const { totalPrice, totalQuantity, cartItems } = useSelector(state => state.cart);
     const dispatch = useDispatch();
 
     const handleCheckout = async () => {
-        /* const stripe = await getStripe();
+        const stripe = await getStripe();
 
         const response = await fetch('/api/stripe', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(cartItems),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cartItems }),
         });
 
-        if (response.statusCode === 500) return;
+        if (response.statusCode === 500) return dispatch(addAlert({ type: "error", message: "Sorry, there's been an error with Stripe" }))
 
         const data = await response.json();
 
-        toast.loading('Redirecting...');
+        console.log("stripe data", data);
 
-        stripe.redirectToCheckout({ sessionId: data.id }); */
+        dispatch(addAlert({ type: "success", message: "Redirection to Stripe for the payment..." }));
+
+        stripe.redirectToCheckout({ sessionId: data.id });
     }
 
     const onBgClick = (e) => {

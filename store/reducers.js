@@ -65,7 +65,7 @@ export const cartSlice = createSlice({
             state.cartItems = [];
             state.totalPrice = 0;
             state.totalQuantity = 0;
-            if (typeof window !== 'undefined') localStorage.setItem("insta-cart", JSON.stringify([]));
+            if (typeof window !== 'undefined') localStorage.clear();
         }
     }
 });
