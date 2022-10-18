@@ -21,7 +21,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className="bg-inherit w-screen border-b border-black border-opacity-10 navbar">
+        <div className="bg-inherit w-full border-b border-black border-opacity-10 navbar">
             <Title title="Instashop" logo={logo} />
 
             <div className="mr-2">

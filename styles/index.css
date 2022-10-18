@@ -10,6 +10,10 @@
     padding: 0;
 }
 
+body {
+    width: 100vw;
+}
+
 .paused {
     animation-play-state: paused;
 }
@@ -35,7 +39,7 @@
 }
 
 .hero-banner-container {
-    @apply py-24 px-10 bg-gray-500 rounded-2xl relative h-banner leading-none w-full;
+    @apply py-24 px-5 sm:px-10 bg-gray-500 rounded-2xl relative h-banner leading-none w-full;
 }
 
 .hero-banner-container button {
@@ -47,7 +51,7 @@
 }
 
 .footer-banner-container {
-    @apply py-24 px-10 bg-red-500 rounded-2xl relative h-96 leading-none text-white w-full mt-32 md:h-[560px] md:mt-20;
+    @apply py-24 px-5 sm:px-10 bg-red-500 rounded-2xl relative h-96 leading-none text-white w-full mt-32 md:h-[560px] md:mt-20;
 }
 
 .flex-x {
@@ -159,4 +163,8 @@
 
 .qty-desc {
     @apply text-base py-1.5 px-3 cursor-pointer
+}
+
+.hero-img-size {
+    @apply lg:h-auto lg:w-[600px] md:h-96 md:w-96 sm:w-64 sm:h-64 w-56 h-56;
 }
