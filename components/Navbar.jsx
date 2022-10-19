@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from "next/router";
-import { CartIcon } from "./UI";
+import { CartIcon, LoginIcon } from "./UI";
 import { IoMdCart } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleCart, setCart } from "../store/actions";
@@ -24,7 +24,8 @@ const Navbar = () => {
         <div className="bg-inherit w-full border-b border-black border-opacity-10 navbar">
             <Title title="Instashop" logo={logo} />
 
-            <div className="mr-2">
+            <div className="mr-2 flex-x gap-2">
+                <LoginIcon />
                 <CartIcon onClick={() => dispatch(toggleCart(true))} icon={<IoMdCart size={40} />} counter={totalQuantity} />
             </div>
 
