@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineShopping, AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineDelete } from 'react-icons/ai';
 import { useSelector, useDispatch } from "react-redux";
 import { addAlert, toggleCart, toggleCartItemQty, removeFromCart, emptyCart } from "../store/actions";
+import { useSession } from "next-auth/react";
 
 import { urlFor } from '../lib/client';
 import getStripe from '../lib/getStripe';
@@ -11,6 +12,7 @@ import getStripe from '../lib/getStripe';
 const Cart = () => {
     const { totalPrice, totalQuantity, cartItems } = useSelector(state => state.cart);
     const dispatch = useDispatch();
+    const session = useSession();
 
     const handleCheckout = async () => {
         const stripe = await getStripe();

@@ -2,11 +2,10 @@ import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../lib/prisma"
 
 export default NextAuth({
+    debug: true,
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
@@ -21,5 +20,17 @@ export default NextAuth({
     pages: {
         signIn: '/auth/signin',
         error: '/auth/signin', // Error code passed in query string as ?error=
+    },
+    callbacks: {
+        session: async ({ session, token, user }) => {
+            session = {
+                ...session,
+                user: {
+                    id: user.id,
+                    ...session.user
+                }
+            }
+            return session
+        }
     }
 })

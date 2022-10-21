@@ -1,20 +1,37 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { AiOutlineStar, AiOutlinePlus, AiOutlineMinus, AiFillStar } from "react-icons/ai";
+import React, { useState, useRef, useMemo, useCallback } from 'react';
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { InView } from "react-intersection-observer";
 import { Product } from "../../components";
 import { client, urlFor } from "../../lib/client";
 import { useSelector, useDispatch } from "react-redux";
+import { useSession, signIn } from "next-auth/react";
 import { addAlert, addToCart, toggleCart } from "../../store/actions";
+import { ReviewScore, ReviewForm } from '../../components/UI';
+import prisma from '../../lib/prisma';
 
-
-const ProductDetails = ({ products, product }) => {
+const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
     const [animation, setAnimation] = useState("animate-carousel-right sm:animate-sm-carousel-right md:animate-md-carousel-right lg:animate-lg-carousel-right");
     const { image, name, details, price } = product;
     const [qty, setQty] = useState(1);
     const [index, setIndex] = useState(0);
     const trackRef = useRef(null);
     const dispatch = useDispatch();
+    const { data: session } = useSession();
+    const [reviews, setReviews] = useState(defaultReviews);
+    const isReviewed = useMemo(() => {
+        console.log("session: ", session);
+        if (!session) return false;
+        const userReview = reviews.filter(review => review.reviewer.id === session.user.id);
+        console.log("user Review: ", userReview);
+        return userReview.length > 0;
+    }, [reviews]);
+
+    const score = useMemo(() => {
+        if (!reviews || reviews.length == 0) return 0;
+        console.log("reviews: ", reviews);
+        return (reviews.reduce((sum, review) => review ? sum + review.score : 0, 0) / reviews.length).toFixed(1);
+    }, [reviews]);
 
     const buyNow = () => {
         dispatch(addToCart({ product, quantity: qty }));
@@ -48,6 +65,10 @@ const ProductDetails = ({ products, product }) => {
         setAnimation("animate-carousel-left sm:animate-sm-carousel-left md:animate-md-carousel-left lg:animate-lg-carousel-left");
     }
 
+    const onReviewed = (review) => {
+        setReviews(reviews => [review, ...reviews]);
+    }
+
     return (
         <>
             <div className="flex justify-around gap-3 w-full h-fit flex-col items-center md:items-start md:flex-row ">
@@ -65,14 +86,7 @@ const ProductDetails = ({ products, product }) => {
                 </div>
                 <div className="lg:w-1/3 md:w-[45%] md:h-2/3 lg:h-1/2 flex flex-col gap-3">
                     <h1 className="text-sky-900 font-extrabold text-3xl">{name}</h1>
-                    <div className="space-x-0.5 text-red-600 flex">
-                        {[0, 1, 2, 3].map((_, i) => <AiFillStar key={`star-${i}`} />)}
-                        <AiOutlineStar />
-                        <p className="relative bottom-[5px] text-black">
-                            (20)
-                        </p>
-                    </div>
-
+                    <ReviewScore score={score} htmlId="reviews" total={reviews.length} />
                     <h4 className="font-bold text-xs text-black">Details: </h4>
                     <p className="font-thin text-xs">{details}</p>
                     <p className="font-bold text-red-700 text-3xl mt-2">${price}</p>
@@ -128,6 +142,24 @@ const ProductDetails = ({ products, product }) => {
                 </div>
 
             </div>
+            <div className="flex-y mt-24 pl-10" id="reviews">
+                <h2 className="text-2xl font-extrabold text-blue-900 w-full text-center mb-10">
+                    Reviews
+                </h2>
+                {!session && (
+                    <h3 className="text-lg text-blue-800 font-bold">
+                        <span className="cursor-pointer bg-blue-800 hover:bg-blue-900 px-2 py-1 rounded-full text-white" onClick={() => signIn()}>Sign in</span> to leave a review
+                    </h3>
+                )}
+                {session && !isReviewed && (
+                    <ReviewForm product={product} onSent={onReviewed} />
+                )}
+                <div className="flex flex-col gap-5 w-full">
+                    {(!reviews || reviews.length === 0) && (
+                        <h3 className="text-sky-700 text-xl mt-6">No reviews yet</h3>
+                    )}
+                </div>
+            </div>
         </>
     )
 }
@@ -159,9 +191,17 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
     const products = await client.fetch(productsQuery);
     const product = await client.fetch(query);
+    const reviews = await prisma.review.findMany({
+        where: { productId: product._id },
+        include: {
+            reviewer: {
+                select: { id: true, name: true, image: true }
+            }
+        }
+    });
 
     return {
-        props: { products, product }
+        props: { products, product, reviews: JSON.parse(JSON.stringify(reviews)) }
     }
 }
 

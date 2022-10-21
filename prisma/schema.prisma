@@ -46,6 +46,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  orders        Order[]
+  review        Review[]
 }
 
 model VerificationToken {
@@ -54,4 +56,22 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Order  {
+  id          String     @id @default(cuid())
+  productId   String
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+}
+
+model Review  {
+  id          String     @id @default(cuid())
+  productId   String
+  reviewerId  String
+  reviewer    User       @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+  comment     String
+  score       Int
+  createdAt   DateTime   @default(now())
 }

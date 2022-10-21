@@ -96,7 +96,7 @@ body {
 }
 
 .btn {
-    @apply select-none font-bold py-2 px-6 text-center drop-shadow cursor-pointer rounded-3xl transition-all duration-300 uppercase;
+    @apply select-none font-bold py-2 px-6 text-center drop-shadow cursor-pointer rounded-3xl transition-all duration-200 uppercase;
 }
 
 .btn:hover {
@@ -191,4 +191,41 @@ body {
 
 .github-icon {
     @apply border-black group-hover:border-gray-900;
+}
+
+.input-r-rounded {
+    @apply h-full lg:pl-2 border-2 border-blue-500 font-semibold rounded-r-full
+    text-blue-500 outline-none disabled:border-transparent disabled:bg-blue-700 disabled:text-white
+    disabled:cursor-not-allowed focus:outline-none focus:ring-blue-300 focus:ring-1;
+}
+
+.input-r-rounded:focus-within ~ label,
+.input-r-rounded:not(:placeholder-shown) ~ label {
+    @apply transform scale-75 -translate-y-3;
+}
+
+
+textarea.input-r-rounded {
+    @apply rounded-br-none rounded-tr-xl rounded-bl-xl;
+}
+
+textarea.input-r-rounded.rounded-l-full {
+    @apply rounded-xl;
+}
+
+input.error, .input-r-rounded.error {
+    @apply text-red-500 border-red-500 focus:outline-none focus:ring-red-300 focus:ring-2;
+}
+
+.input-r-rounded:focus-within ~ label {
+    @apply text-blue-500;
+}
+
+.input-r-rounded:not(:focus-within) ~ label {
+    @apply transform duration-300 scale-100;
+}
+
+.input-container .input-r-rounded:focus-within ~ label,
+.input-container .input-r-rounded:not(:placeholder-shown) ~ label {
+    @apply transform scale-75 -translate-y-2 z-0 ml-4 px-1 py-0;
 }
