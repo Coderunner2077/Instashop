@@ -1,4 +1,4 @@
-import React, { FocusEvent, useLayoutEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { inputWidth, floatingLabel } from "../../constants";
 
 const Input = (props) => {
@@ -26,23 +26,23 @@ const Input = (props) => {
     const textareaRef = useRef(null);
     const inputRef = useRef(null);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         setValue(initValue);
         setErrors([]);
         setErrorClass("");
     }, [reset]);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         setValue(initValue ?? "");
     }, [initValue]);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!checkValue) return;
         if (value)
             validate(value);
     }, [checkValue]);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (textareaRef.current)
             textareaRef.current.focus()
         if (inputRef.current)
@@ -52,16 +52,6 @@ const Input = (props) => {
     const handleChange = (e) => {
         setValue(e.target.value);
         validate(e.target.value);
-    };
-
-    const onValidate = (valid) => {
-        const errs = errors.filter((error) => error !== null && error !== undefined);
-        if (valid && errs.length < 1) {
-            setErrorClass("");
-        } else {
-            setErrorClass(`error`);
-            if (onError) onError();
-        }
     };
 
     const validate = (value) => {
@@ -125,9 +115,9 @@ const Input = (props) => {
             {label &&
                 <label htmlFor={id} className={labelClass}>{label}</label>
             }
-            <div className={`absolute text-xs -bottom-4`}>
+            <div className={`absolute text-xs -bottom-1`}>
                 {errors.length > 0 && (
-                    <div className="text-red-500 whitespace-nowrap" role="alert">
+                    <div className="text-red-500 whitespace-nowrap error" role="alert">
                         {errors[0]}
                     </div>
                 )}

@@ -4,32 +4,32 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { InView } from "react-intersection-observer";
 import { Product } from "../../components";
 import { client, urlFor } from "../../lib/client";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useSession, signIn } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from "../api/auth/[...nextauth]"
 import { addAlert, addToCart, toggleCart } from "../../store/actions";
-import { ReviewScore, ReviewForm } from '../../components/UI';
+import { ReviewScore, ReviewForm, Review } from '../../components/Review';
 import prisma from '../../lib/prisma';
 
 const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
+    const { data: session } = useSession();
     const [animation, setAnimation] = useState("animate-carousel-right sm:animate-sm-carousel-right md:animate-md-carousel-right lg:animate-lg-carousel-right");
     const { image, name, details, price } = product;
     const [qty, setQty] = useState(1);
     const [index, setIndex] = useState(0);
     const trackRef = useRef(null);
     const dispatch = useDispatch();
-    const { data: session } = useSession();
     const [reviews, setReviews] = useState(defaultReviews);
+    //const { data: session } = useSession();
     const isReviewed = useMemo(() => {
-        console.log("session: ", session);
         if (!session) return false;
         const userReview = reviews.filter(review => review.reviewer.id === session.user.id);
-        console.log("user Review: ", userReview);
         return userReview.length > 0;
     }, [reviews]);
 
     const score = useMemo(() => {
         if (!reviews || reviews.length == 0) return 0;
-        console.log("reviews: ", reviews);
         return (reviews.reduce((sum, review) => review ? sum + review.score : 0, 0) / reviews.length).toFixed(1);
     }, [reviews]);
 
@@ -68,6 +68,10 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
     const onReviewed = (review) => {
         setReviews(reviews => [review, ...reviews]);
     }
+
+    const onDeleted = useCallback(review => {
+        setReviews(reviews => reviews.filter(r => r.id !== review.id));
+    }, [reviews]);
 
     return (
         <>
@@ -142,7 +146,7 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
                 </div>
 
             </div>
-            <div className="flex-y mt-24 pl-10" id="reviews">
+            <div className="flex-y mt-24 pl-5 sm:pl-10" id="reviews">
                 <h2 className="text-2xl font-extrabold text-blue-900 w-full text-center mb-10">
                     Reviews
                 </h2>
@@ -158,12 +162,16 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
                     {(!reviews || reviews.length === 0) && (
                         <h3 className="text-sky-700 text-xl mt-6">No reviews yet</h3>
                     )}
+                    {reviews && reviews.length > 0 && reviews.map(review => (
+                        <Review review={review} onDeleted={onDeleted} key={`review-key-${review.id}`} />
+                    ))}
                 </div>
             </div>
         </>
     )
 }
 
+/*
 export const getStaticPaths = async () => {
     const query = `*[_type == product] {
         slug {
@@ -184,8 +192,9 @@ export const getStaticPaths = async () => {
         fallback: "blocking"
     }
 }
+*/
 
-export const getStaticProps = async ({ params: { slug } }) => {
+export const getServerSideProps = async ({ params: { slug }, req, res }) => {
     const query = `*[_type == "product" && slug.current == '${slug}'][0]`;
     const productsQuery = `*[_type == "product" && slug.current != '${slug}']`;
 
@@ -199,9 +208,12 @@ export const getStaticProps = async ({ params: { slug } }) => {
             }
         }
     });
+    const session = await unstable_getServerSession(req, res, authOptions);
 
     return {
-        props: { products, product, reviews: JSON.parse(JSON.stringify(reviews)) }
+        props: {
+            session, products, product, reviews: JSON.parse(JSON.stringify(reviews))
+        }
     }
 }
 

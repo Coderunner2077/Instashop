@@ -1,6 +1,9 @@
-import { data } from 'autoprefixer';
 import React, { useState } from 'react';
-import { Input, ReviewScore } from ".";
+import { Input } from "../UI";
+import { ReviewScore } from ".";
+import { useDispatch } from 'react-redux';
+import { addAlert } from '../../store/actions';
+import { required, vreview } from '../../utils/validate';
 
 const ReviewForm = ({ product, onSent }) => {
     const [value, setValue] = useState();
@@ -8,10 +11,14 @@ const ReviewForm = ({ product, onSent }) => {
     const [focus, setFocus] = useState(true);
     const [send, setSend] = useState(false);
     const [score, setScore] = useState(0);
+    const [error, setError] = useState(true);
+
+    const dispatch = useDispatch();
 
     const handleChange = (value) => {
         setValue(value);
         setFocus(true);
+        setError(false);
     };
 
     const handleComplete = () => {
@@ -26,18 +33,20 @@ const ReviewForm = ({ product, onSent }) => {
             handleSubmit(value);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = () => {
         setFocus(false);
         setSend(true);
-        if (onSent) onSent(value);
     }
 
     const handleNewScore = (score) => {
         setScore(score);
     }
 
+    const handleError = () => setError(true);
+
     const submitData = async (e) => {
         e.preventDefault();
+        if (error || score < 1) return;
         try {
             const body = { productId: product._id, comment: value, score };
             const response = await fetch('/api/review', {
@@ -47,9 +56,11 @@ const ReviewForm = ({ product, onSent }) => {
             });
             const data = await response.json();
 
-            console.log("created review: ", data);
+            handleComplete();
+            onSent(data);
+            dispatch(addAlert({ type: "success", message: `You've successfully reviewed the product` }));
         } catch (error) {
-            console.error("submit error", error);
+            dispatch(addAlert({ type: "error", message: error.message || error.response?.message }));
         }
     };
 
@@ -69,6 +80,8 @@ const ReviewForm = ({ product, onSent }) => {
                         focus={focus}
                         placeholder="Your review"
                         className="w-fit sm:w-72"
+                        validators={[required, vreview]}
+                        onError={handleError}
                     />
                     <div className={`ml-2`} type="submit">
                         <button className="btn btn-red-outline">

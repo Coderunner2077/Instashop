@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 
@@ -6,7 +6,7 @@ const ReviewScore = ({ score: defaultScore, id, htmlId, total, onChange }) => {
     const [score, setScore] = useState(defaultScore);
 
     const handleClick = (score) => {
-        console.log("new score is: ", score);
+        if (!onChange) return;
         setScore(score);
         if (isOwner) onChange(score);
     }
@@ -22,15 +22,15 @@ const ReviewScore = ({ score: defaultScore, id, htmlId, total, onChange }) => {
         return <>{stars.map((star, i) => <FaStar key={`${id}-star-${i}`} className={`${isOwner ? "transition-all duration-200 hover:scale-110" : ""}`} onClick={() => handleClick(star + 1)} />)}</>;
     }, [score]);
 
-    const halfStar = useMemo(() => (
-        score % Math.floor(score) > 0 ? <FaStarHalfAlt /> : ""
-    ), [score]);
+    const halfStar = useMemo(() => {
+        if (!score) return "";
+        return score % Math.floor(score) > 0 ? <FaStarHalfAlt /> : ""
+    }, [score]);
 
     const emptyStars = useMemo(() => {
         let emptyStars = [];
         for (let i = Math.floor(score); i < 5; i++)
             emptyStars.push(i);
-        console.log("emptyStars", emptyStars);
         return <>{emptyStars.map((star, i) => <FaRegStar key={`${id}-emptystar-${i}`} className={`${isOwner ? "transition-all duration-200  hover:scale-110" : ""}`} onClick={() => handleClick(star + 1)} />)}</>;
     }, [score])
 

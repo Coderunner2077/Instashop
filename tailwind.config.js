@@ -44,6 +44,10 @@ module.exports = {
       height: {
         banner: "500px"
       },
+      maxWidth: {
+        "150": "150px",
+        "review": "250px"
+      },
       zIndex: {
         "100": 100,
         "1050": 1050,
@@ -57,6 +61,10 @@ module.exports = {
         "1/5": "20%"
       },
       keyframes: {
+        "slide-in-right": {
+          "0%": { opacity: "0", transform: "translateX(-200px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" }
+        },
         'carousel-right': {
           '0%': { transform: 'translateX(400%)' },
           '100%': { transform: 'translateX(-400%)' },
@@ -113,6 +121,7 @@ module.exports = {
         'lg-carousel-left': 'lg-carousel-left 30s linear infinite',
         "alert-in": "alert-in 3.9s ease-out",
         "alert-out": "alert-out 2.7s ease-out",
+        "slide-in-right": "slide-in-right 0.5s ease-out"
       }
     },
   },
