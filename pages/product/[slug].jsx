@@ -19,6 +19,7 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
     const [qty, setQty] = useState(1);
     const [index, setIndex] = useState(0);
     const trackRef = useRef(null);
+    const scrollDiv = useRef(null);
     const dispatch = useDispatch();
     const [reviews, setReviews] = useState(defaultReviews);
     //const { data: session } = useSession();
@@ -73,6 +74,10 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
         setReviews(reviews => reviews.filter(r => r.id !== review.id));
     }, [reviews]);
 
+    const handleScroll = () => {
+        scrollDiv.current ? scrollDiv.current.scrollIntoView(true) : null;
+    }
+
     return (
         <>
             <div className="flex justify-around gap-3 w-full h-fit flex-col items-center md:items-start md:flex-row ">
@@ -90,7 +95,9 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
                 </div>
                 <div className="lg:w-1/3 md:w-[45%] md:h-2/3 lg:h-1/2 flex flex-col gap-3">
                     <h1 className="text-sky-900 font-extrabold text-3xl">{name}</h1>
-                    <ReviewScore score={score} htmlId="reviews" total={reviews.length} />
+                    <div onClick={handleScroll}>
+                        <ReviewScore score={score} total={reviews.length} />
+                    </div>
                     <h4 className="font-bold text-xs text-black">Details: </h4>
                     <p className="font-thin text-xs">{details}</p>
                     <p className="font-bold text-red-700 text-3xl mt-2">${price}</p>
@@ -146,7 +153,7 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
                 </div>
 
             </div>
-            <div className="flex-y mt-24 pl-5 sm:pl-10" id="reviews">
+            <div className="flex-y mt-24 pl-5 sm:pl-10" id="reviews" ref={scrollDiv}>
                 <h2 className="text-2xl font-extrabold text-blue-900 w-full text-center mb-10">
                     Reviews
                 </h2>

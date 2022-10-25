@@ -43,7 +43,7 @@ const Input = (props) => {
     }, [checkValue]);
 
     useEffect(() => {
-        if (textareaRef.current)
+        if (textareaRef.current && focus)
             textareaRef.current.focus()
         if (inputRef.current)
             inputRef.current.focus();

@@ -8,7 +8,7 @@ import { required, vreview } from '../../utils/validate';
 const ReviewForm = ({ product, onSent }) => {
     const [value, setValue] = useState();
     const [reset, setReset] = useState(false);
-    const [focus, setFocus] = useState(true);
+    const [focus, setFocus] = useState(false);
     const [send, setSend] = useState(false);
     const [score, setScore] = useState(0);
     const [error, setError] = useState(true);

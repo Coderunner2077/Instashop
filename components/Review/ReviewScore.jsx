@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 
-const ReviewScore = ({ score: defaultScore, id, htmlId, total, onChange }) => {
+const ReviewScore = ({ score: defaultScore, id, total, onChange }) => {
     const [score, setScore] = useState(defaultScore);
 
     const handleClick = (score) => {
@@ -50,14 +50,11 @@ const ReviewScore = ({ score: defaultScore, id, htmlId, total, onChange }) => {
         </div>
     ), [score, isOwner]);
 
-    return htmlId ? (
-        <a href={`#${htmlId}`} className="cursor-pointer">
-            {content}
-        </a>
-    ) :
+    return (
         <div className="cursor-pointer">
             {content}
         </div>
+    )
 };
 
 export default ReviewScore;
