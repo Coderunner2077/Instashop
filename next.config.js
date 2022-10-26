@@ -15,4 +15,12 @@ module.exports = withBundleAnalyzer({
   // You can remove `basePath` if you don't need it.
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    hostname: ["**.googleusercontent.com", "**.githubusercontent.com"],
+    domains: [
+      "lh3.googleusercontent.com",
+      "avatars.githubusercontent.com"
+    ],
+
+  }
 });
