@@ -30,6 +30,19 @@ export const authOptions = {
                 }
             }
             return session
+        },
+        callbacks: {
+            async redirect({ url, baseUrl }) {
+                // Avoids having callback url passed more than once
+                console.log("url: ", url);
+                console.log("baseUrl: ", baseUrl);
+                if (/(\?|&)callbackUrl=/.match(baseUrl)) return baseUrl;
+                // Allows relative callback URLs
+                else if (url.startsWith("/")) return `${baseUrl}${url}`
+                // Allows callback URLs on the same origin
+                else if (new URL(url).origin === baseUrl) return url
+                return baseUrl
+            }
         }
     },
     secret: process.env.SECRET
