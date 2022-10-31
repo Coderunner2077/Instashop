@@ -87,9 +87,32 @@ export const alertSlice = createSlice({
     }
 });
 
+
+const initialModalState = {
+    modal: null
+}
+
+export const modalSlice = createSlice({
+    name: "modal",
+    initialState: initialModalState,
+    reducers: {
+        showModal: (state, action) => {
+            state.modal = action.payload;
+        },
+        hideModal: (state) => {
+            state.modal = null
+        },
+        updateTitle: (state, action) => {
+            if (state.modal)
+                state.modal.title = action.payload.title;
+        }
+    }
+});
+
 const rootReducer = combineReducers({
     cart: cartSlice.reducer,
-    flash: alertSlice.reducer
+    flash: alertSlice.reducer,
+    modal: modalSlice.reducer
 });
 
 export default rootReducer;

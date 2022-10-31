@@ -50,8 +50,9 @@ module.exports = {
       },
       zIndex: {
         "100": 100,
-        "1050": 1050,
-        "10000": 1000
+        '1040': 1040,
+        '1050': 1050,
+        "10000": 10000
       },
       fontSize: {
         "7xl": "80px",
@@ -108,7 +109,11 @@ module.exports = {
           //"12%": { opacity: 1, transform: "translateY(0)" },
           "88%": { opacity: 1, transform: "translateY(0)" },
           "100%": { opacity: 0, transform: "translateY(-15px)" }
-        }
+        },
+        'fade-in-down': {
+          '0%': { opacity: '0', transform: 'translateY(-100vh)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'carousel-right': 'carousel-right 30s linear infinite',
@@ -121,7 +126,8 @@ module.exports = {
         'lg-carousel-left': 'lg-carousel-left 30s linear infinite',
         "alert-in": "alert-in 3.9s ease-out",
         "alert-out": "alert-out 2.7s ease-out",
-        "slide-in-right": "slide-in-right 0.5s ease-out"
+        "slide-in-right": "slide-in-right 0.5s ease-out",
+        'fade-in-down': 'fade-in-down 0.3s ease-out'
       }
     },
   },

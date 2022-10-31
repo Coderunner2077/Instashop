@@ -267,3 +267,11 @@ input.error, .input-r-rounded.error, .error {
 .btn-link {
     @apply text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300;
 }
+
+@layer components {
+    .modal {
+        @apply bg-blue-200 shadow z-100 relative m-auto rounded-3xl animate-fade-in-down
+        max-h-screen max-w-full sm:max-w-screen-sm md:max-w-screen-md xl:max-w-screen-lg;
+    }
+}
+
