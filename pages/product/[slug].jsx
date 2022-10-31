@@ -165,7 +165,7 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
                 {session && !isReviewed && (
                     <ReviewForm product={product} onSent={onReviewed} />
                 )}
-                <div className="flex flex-col gap-5 w-full">
+                <div className={`flex flex-col gap-5 w-full ${session && !isReviewed ? "mt-6" : ""}`}>
                     {(!reviews || reviews.length === 0) && (
                         <h3 className="text-sky-700 text-xl mt-6">No reviews yet</h3>
                     )}
