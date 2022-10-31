@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Input } from "../UI";
+import { Input, LoadingButton } from "../UI";
 import { ReviewScore } from ".";
 import { useDispatch } from 'react-redux';
 import { addAlert } from '../../store/actions';
 import { required, vreview } from '../../utils/validate';
+import { formatError } from '../../utils';
 
 const ReviewForm = ({ product, onSent }) => {
     const [value, setValue] = useState();
@@ -12,6 +13,7 @@ const ReviewForm = ({ product, onSent }) => {
     const [send, setSend] = useState(false);
     const [score, setScore] = useState(0);
     const [error, setError] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -46,7 +48,8 @@ const ReviewForm = ({ product, onSent }) => {
 
     const submitData = async (e) => {
         e.preventDefault();
-        if (error || score < 1) return;
+        if (error || score < 1 || loading) return
+        setLoading(true);
         try {
             const body = { productId: product._id, comment: value, score };
             const response = await fetch('/api/review', {
@@ -59,8 +62,10 @@ const ReviewForm = ({ product, onSent }) => {
             handleComplete();
             onSent(data);
             dispatch(addAlert({ type: "success", message: `You've successfully reviewed the product` }));
+            setLoading(false);
         } catch (error) {
-            dispatch(addAlert({ type: "error", message: error.message || error.response?.message }));
+            dispatch(addAlert({ type: "error", message: formatError(error) }));
+            setLoading(false);
         }
     };
 
@@ -83,10 +88,14 @@ const ReviewForm = ({ product, onSent }) => {
                         validators={[required, vreview]}
                         onError={handleError}
                     />
-                    <div className={`ml-2`} type="submit">
-                        <button className="btn btn-red-outline">
+                    <div className={`ml-2`}>
+                        <LoadingButton
+                            loading={loading}
+                            disabled={loading}
+                            className="btn-red-outline"
+                        >
                             Post
-                        </button>
+                        </LoadingButton>
                     </div>
                 </div>
             </div>

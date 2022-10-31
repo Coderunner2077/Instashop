@@ -99,7 +99,12 @@ body {
     @apply select-none font-bold py-2 px-6 text-center drop-shadow cursor-pointer rounded-3xl transition-all duration-200 uppercase;
 }
 
-.btn:hover {
+.btn.loading-btn {
+    @apply inline-flex justify-center items-center gap-1 font-medium rounded-full text-sm
+    px-3 py-2.5 text-center disabled:opacity-80;
+}
+
+.btn:hover:not(:disabled) {
     @apply  scale-110 ring-2
 }
 

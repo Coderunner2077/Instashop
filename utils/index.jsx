@@ -26,3 +26,32 @@ export function timeSince(date) {
 
     return `${interval < 20 ? "a moment ago" : interval + " seconds ago"}`;
 }
+
+export const formatError = (error) => {
+    let message = error.message || error.response?.message
+    if (message.match(/\[[a-zA-Z]+\]/)) {
+        message = message.replace(/\[[a-zA-Z]+\]/g, "");
+    }
+    return message
+};
+
+export function getCssStyle(element, prop) {
+    return window.getComputedStyle(element, null).getPropertyValue(prop);
+}
+
+export function getCanvasFontSize(el = document.body) {
+    const fontWeight = getCssStyle(el, 'font-weight') || 'normal';
+    const fontSize = getCssStyle(el, 'font-size') || '16px';
+    const fontFamily = getCssStyle(el, 'font-family') || 'Times New Roman';
+
+    return `${fontWeight} ${fontSize} ${fontFamily}`;
+}
+
+export function getTextWidth(text, font, canvas = document.createElement("canvas")) {
+    // re-use canvas object for better performance
+    const context = canvas.getContext("2d");
+    if (!context) return 0;
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
+}
