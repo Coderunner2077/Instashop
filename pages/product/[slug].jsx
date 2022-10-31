@@ -22,7 +22,7 @@ const ProductDetails = ({ products, product, reviews: defaultReviews }) => {
     const scrollDiv = useRef(null);
     const dispatch = useDispatch();
     const [reviews, setReviews] = useState(defaultReviews);
-    //const { data: session } = useSession();
+
     const isReviewed = useMemo(() => {
         if (!session) return false;
         const userReview = reviews.filter(review => review.reviewer.id === session.user.id);

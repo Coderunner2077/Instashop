@@ -1,9 +1,13 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 
 const ReviewScore = ({ score: defaultScore, id, total, onChange }) => {
     const [score, setScore] = useState(defaultScore);
+
+    useEffect(() => {
+        setScore(defaultScore);
+    }, [defaultScore]);
 
     const handleClick = (score) => {
         if (!onChange) return;
@@ -17,10 +21,10 @@ const ReviewScore = ({ score: defaultScore, id, total, onChange }) => {
 
     const stars = useMemo(() => {
         let stars = [];
-        for (let i = 0; i < score; i++)
+        for (let i = 0; i < Math.floor(score); i++)
             stars.push(i)
         return <>{stars.map((star, i) => <FaStar key={`${id}-star-${i}`} className={`${isOwner ? "transition-all duration-200 hover:scale-110" : ""}`} onClick={() => handleClick(star + 1)} />)}</>;
-    }, [score]);
+    }, [score, total]);
 
     const halfStar = useMemo(() => {
         if (!score) return "";
@@ -29,7 +33,7 @@ const ReviewScore = ({ score: defaultScore, id, total, onChange }) => {
 
     const emptyStars = useMemo(() => {
         let emptyStars = [];
-        for (let i = Math.floor(score); i < 5; i++)
+        for (let i = Math.ceil(score); i < 5; i++)
             emptyStars.push(i);
         return <>{emptyStars.map((star, i) => <FaRegStar key={`${id}-emptystar-${i}`} className={`${isOwner ? "transition-all duration-200  hover:scale-110" : ""}`} onClick={() => handleClick(star + 1)} />)}</>;
     }, [score])
@@ -38,8 +42,8 @@ const ReviewScore = ({ score: defaultScore, id, total, onChange }) => {
         <div className="space-x-0.5 text-red-600 flex items-center">
             {stars}{halfStar}{emptyStars}
             {total !== undefined && !id && (
-                <p className="text-black">
-                    ({`${total}`})
+                <p className="text-red-500 cursor-default">
+                    {`(${score}) - ${total} review${total < 2 ? "" : "s"}`}
                 </p>
             )}
             {isOwner && (

@@ -24,5 +24,5 @@ export function timeSince(date) {
 
     interval = Math.floor(seconds);
 
-    return `${interval + " seconds ago"}`;
+    return `${interval < 20 ? "a moment ago" : interval + " seconds ago"}`;
 }
