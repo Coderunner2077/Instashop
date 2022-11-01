@@ -1,0 +1,95 @@
+import React, { useState, useEffect, useMemo } from "react";
+import { MuiTextField, LoadingButton } from "./UI";
+import { isEmail, required, vusername, vreview } from "../utils/validate";
+import { abortController, formatError } from "../utils";
+import { useErrorContext } from "../context";
+import { useDispatch } from "react-redux";
+import { hideModal, addAlert } from "../store/actions";
+import { useSession } from "next-auth/react";
+
+const ContactUs = () => {
+    const { data: session } = useSession();
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [message, setMessage] = useState('');
+    const [isReset, setIsReset] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+
+    const { valid, updateErrors, useErrorCallbacks } = useErrorContext();
+    const { nameError, emailError, messageError } = useErrorCallbacks();
+
+    const currentUser = useMemo(() => session && session.user, [session])
+
+    useEffect(() => {
+        if (session) {
+            setName(session.user.username);
+            setEmail(session.user.email);
+            updateErrors({ name: false, email: !session.user.email, message: true });
+        }
+
+        return () => { abortController.abort(); }
+    }, [session]);
+
+    const handleSuccess = () => {
+        reset();
+        dispatch(hideModal());
+    };
+
+    const reset = () => {
+        setMessage(""); updateErrors({ name: false, email: false, message: true }); setIsReset(!isReset);
+    }
+
+    const submitData = async (e) => {
+        e.preventDefault();
+        if (!valid || loading) return;
+        setLoading(true);
+        try {
+            const body = { name, email, message };
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await response.json();
+
+            handleSuccess();
+            dispatch(addAlert({ type: "success", message: `Thank you for your message. We'll get back to you within 72 hours` }));
+            setLoading(false);
+        } catch (error) {
+            dispatch(addAlert({ type: "error", message: formatError(error) }));
+            setLoading(false);
+        }
+    };
+
+    return (
+        <form className="flex-y p-2 w-full sm:w-96 gap-4" onSubmit={submitData}>
+            <MuiTextField onChange={(value) => setName(value)}
+                validators={[required, vusername]} label="Name" onError={nameError}
+                defaultValue={currentUser ? currentUser.username : ""}
+                disabled={currentUser && !!currentUser.username}
+            />
+
+            <MuiTextField type="email" onChange={(value) => setEmail(value)}
+                validators={[required, isEmail]} label="Email" onError={emailError}
+                defaultValue={currentUser && currentUser.email ? currentUser.email : ""}
+                disabled={currentUser && !!currentUser.email}
+            />
+
+            <MuiTextField onChange={(value) => setMessage(value)}
+                validators={[required, vreview]} label="Your message" onError={messageError}
+                multiline={true}
+            />
+
+            <div className="flex-x">
+                <LoadingButton loading={loading}
+                    disabled={!valid}
+                >
+                    Send
+                </LoadingButton>
+            </div>
+        </form>
+    );
+};
+
+export default ContactUs;

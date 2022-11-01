@@ -55,3 +55,13 @@ export function getTextWidth(text, font, canvas = document.createElement("canvas
     const metrics = context.measureText(text);
     return metrics.width;
 }
+
+export const arrayToObject = (keys, value) => {
+    if (!Array.isArray(keys)) return keys;
+    const obj = {};
+    for (let key of keys)
+        obj[key] = value;
+    return obj;
+}
+
+export const abortController = new AbortController();

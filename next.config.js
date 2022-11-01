@@ -16,11 +16,9 @@ module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    hostname: ["**.googleusercontent.com", "**.githubusercontent.com"],
     domains: [
       "lh3.googleusercontent.com",
       "avatars.githubusercontent.com"
     ],
-
   }
 });

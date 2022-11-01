@@ -25,3 +25,27 @@ export const vreview = (value) => {
             </span>
         );
 };
+
+export const isEmail = (value) => {
+    if (!validator.isEmail(value))
+        return (
+            <span className="inline-block" role="alert">
+                Valid email required
+            </span>
+        );
+};
+
+export const vusername = (value) => {
+    if (value && value.trim().length < 3)
+        return (
+            <span className="inline-block" role="alert">
+                {"Too short < 3"}
+            </span>
+        );
+    else if (value.trim().length > 20)
+        return (
+            <span className="inline-block" role="alert">
+                {"Too long > 20"}
+            </span>
+        );
+};

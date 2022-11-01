@@ -7,3 +7,4 @@ export { default as Navbar } from "./Navbar";
 export { default as Product } from "./Product";
 export { default as Alert } from "./Alert";
 export { default as Modal } from "./Modal";
+export { default as ContactUs } from "./ContactUs";
