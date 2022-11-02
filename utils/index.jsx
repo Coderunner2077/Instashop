@@ -28,11 +28,7 @@ export function timeSince(date) {
 }
 
 export const formatError = (error) => {
-    let message = error.message || error.response?.message
-    if (message.match(/\[[a-zA-Z]+\]/)) {
-        message = message.replace(/\[[a-zA-Z]+\]/g, "");
-    }
-    return message
+    return error.message || error.response?.message || error.response?.data?.message
 };
 
 export function getCssStyle(element, prop) {

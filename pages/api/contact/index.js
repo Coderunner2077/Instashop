@@ -11,7 +11,7 @@ export default async function handle(req, res) {
         html: `<h3>Email from ${name} "${email}":</h3><p><pre><b>${message}</b></pre></p>`
     }, (err, info) => {
         if (err)
-            res.status(500).send({ message: "Sorry, your message failed to be dilvered" });
+            res.status(500).send({ message: err.message }); //"Sorry, your message failed to be dilvered"
         else
             res.status(200).send({ message: "Your message has been successfully delivered" });
     });
