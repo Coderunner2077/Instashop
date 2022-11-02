@@ -63,5 +63,3 @@ export const arrayToObject = (keys, value) => {
         obj[key] = value;
     return obj;
 }
-
-export const abortController = new AbortController();

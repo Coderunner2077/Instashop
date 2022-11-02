@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { MuiTextField, LoadingButton } from "./UI";
 import { isEmail, required, vusername, vreview } from "../utils/validate";
-import { abortController, formatError } from "../utils";
+import { formatError } from "../utils";
 import { useErrorContext } from "../context";
 import { useDispatch } from "react-redux";
 import { hideModal, addAlert } from "../store/actions";
@@ -19,16 +19,16 @@ const ContactUs = () => {
     const { valid, updateErrors, useErrorCallbacks } = useErrorContext();
     const { nameError, emailError, messageError } = useErrorCallbacks();
 
-    const currentUser = useMemo(() => session && session.user, [session])
+    const currentUser = useMemo(() => {
+        return session && session.user
+    }, [session])
 
     useEffect(() => {
         if (session) {
-            setName(session.user.username);
+            setName(session.user.name);
             setEmail(session.user.email);
             updateErrors({ name: false, email: !session.user.email, message: true });
         }
-
-        return () => { abortController.abort(); }
     }, [session]);
 
     const handleSuccess = () => {
@@ -40,7 +40,7 @@ const ContactUs = () => {
         setMessage(""); updateErrors({ name: false, email: false, message: true }); setIsReset(!isReset);
     }
 
-    const submitData = async (e) => {
+    const submitData = useCallback(async (e) => {
         e.preventDefault();
         if (!valid || loading) return;
         setLoading(true);
@@ -52,33 +52,36 @@ const ContactUs = () => {
                 body: JSON.stringify(body)
             });
             const data = await response.json();
-
-            handleSuccess();
-            dispatch(addAlert({ type: "success", message: `Thank you for your message. We'll get back to you within 72 hours` }));
             setLoading(false);
+            if (response.status === 200) {
+                handleSuccess();
+                dispatch(addAlert({ type: "success", message: `Thank you for your message. We'll get back to you within 72 hours` }));
+            }
+            else
+                dispatch(addAlert({ type: "error", message: formatError(data.message) }));
         } catch (error) {
             dispatch(addAlert({ type: "error", message: formatError(error) }));
             setLoading(false);
         }
-    };
+    }, [name, email, message, valid]);
 
     return (
         <form className="flex-y p-2 w-full sm:w-96 gap-4" onSubmit={submitData}>
             <MuiTextField onChange={(value) => setName(value)}
                 validators={[required, vusername]} label="Name" onError={nameError}
-                defaultValue={currentUser ? currentUser.username : ""}
-                disabled={currentUser && !!currentUser.username}
+                defaultValue={name || ""}
+                disabled={currentUser && !!currentUser.name}
             />
 
             <MuiTextField type="email" onChange={(value) => setEmail(value)}
                 validators={[required, isEmail]} label="Email" onError={emailError}
-                defaultValue={currentUser && currentUser.email ? currentUser.email : ""}
+                defaultValue={email || ""}
                 disabled={currentUser && !!currentUser.email}
             />
 
             <MuiTextField onChange={(value) => setMessage(value)}
                 validators={[required, vreview]} label="Your message" onError={messageError}
-                multiline={true}
+                multiline={true} reset={isReset}
             />
 
             <div className="flex-x">

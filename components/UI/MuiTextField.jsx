@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 
-const MuiTextField = ({ className = "", defaultValue = "", disabled = false, checkValue, label, multiline = false, onError, onChange, reset, type = "text", validators }) => {
+const MuiTextField = ({ className = "w-full", defaultValue = "", disabled = false, checkValue, label, multiline = false, onError, onChange, reset, type = "text", validators }) => {
     const [value, setValue] = useState(defaultValue);
     const [errors, setErrors] = useState([]);
     const [fullClassName, setFullClassName] = useState(className);
