@@ -34,6 +34,9 @@ export default async function handle(req, res) {
             });
             res.status(200).json({ message: "Deleted" })
             resolve();
+        } else {
+            res.setHeader('Allow', 'DELETE');
+            res.status(405).end('Method Not Allowed');
         }
     })
 

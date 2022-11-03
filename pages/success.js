@@ -6,15 +6,33 @@ import { emptyCart } from '../store/actions';
 import { showModal } from "../store/actions";
 import { ContactUs } from "../components";
 import { ErrorContext } from "../context";
+import { useRouter } from "next/router";
 
 import { runFireworks } from '../lib/utils.js';
 
 const Success = () => {
     const dispatch = useDispatch();
+    const {
+        query: { session_id }
+    } = useRouter();
 
-    useEffect(() => {
+    useEffect(async () => {
+        const response = await fetch(`/api/stripe/${session_id}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json()
+        const response2 = await fetch("/api/webhook", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const data2 = await response2.json();
+        console.log("data1: ", data)
+        console.log("data2: ", data2)
+
         dispatch(emptyCart());
         runFireworks();
+
     }, []);
 
     const handleContact = () => {

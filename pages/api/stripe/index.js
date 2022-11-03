@@ -24,8 +24,10 @@ export default async function handler(req, res) {
                         price_data: {
                             currency: 'usd',
                             product_data: {
+                                id: item._id,
                                 name: item.name,
                                 images: [newImage],
+
                             },
                             unit_amount: item.price * 100,
                         },
@@ -36,7 +38,7 @@ export default async function handler(req, res) {
                         quantity: item.quantity
                     }
                 }),
-                success_url: `${req.headers.origin}/success`,
+                success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${req.headers.origin}?cancelled=true`,
             }
 

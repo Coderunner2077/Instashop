@@ -38,5 +38,8 @@ export default async function handle(req, res) {
 
         });
         return res.status(200).json(result);
+    } else {
+        res.setHeader('Allow', 'POST');
+        res.status(405).end('Method Not Allowed');
     }
 }
