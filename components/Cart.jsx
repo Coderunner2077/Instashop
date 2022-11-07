@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineShopping, AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineDelete } from 'react-icons/ai';
@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 
 import { urlFor } from '../lib/client';
 import getStripe from '../lib/getStripe';
+import http from "../lib/http";
 
 const Cart = () => {
     const { totalPrice, totalQuantity, cartItems } = useSelector(state => state.cart);
@@ -17,19 +18,13 @@ const Cart = () => {
     const handleCheckout = async () => {
         const stripe = await getStripe();
 
-        const response = await fetch('/api/stripe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cartItems }),
-        });
-
-        if (response.statusCode === 500) return dispatch(addAlert({ type: "error", message: "Sorry, there's been an error with Stripe" }))
-
-        const data = await response.json();
-
-        dispatch(addAlert({ type: "warning", message: "Redirection to Stripe..." }));
-
-        stripe.redirectToCheckout({ sessionId: data.id });
+        http.post('/api/stripe', {
+            cartItems,
+        }).then(({ data }) => {
+            dispatch(addAlert({ type: "warning", message: "Redirection to Stripe..." }));
+            stripe.redirectToCheckout({ sessionId: data.id });
+        })
+            .catch(err => dispatch(addAlert({ type: "error", message: "Sorry, there's been an error with Stripe" })));
     }
 
     const onBgClick = (e) => {

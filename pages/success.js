@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { BsBagCheckFill } from 'react-icons/bs';
 import { useDispatch } from "react-redux";
-import { emptyCart } from '../store/actions';
+import { emptyCart, addAlert } from '../store/actions';
 import { showModal } from "../store/actions";
 import { ContactUs } from "../components";
 import { ErrorContext } from "../context";
 import { useRouter } from "next/router";
-
+import http from "../lib/http";
+import { formatError } from '../utils';
 import { runFireworks } from '../lib/utils.js';
 
 const Success = () => {
@@ -16,24 +17,19 @@ const Success = () => {
         query: { session_id }
     } = useRouter();
 
-    useEffect(async () => {
-        const response = await fetch(`/api/stripe/${session_id}`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        const data = await response.json()
-        const response2 = await fetch("/api/webhook", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        });
-        const data2 = await response2.json();
-        console.log("data1: ", data)
-        console.log("data2: ", data2)
-
-        dispatch(emptyCart());
-        runFireworks();
-
-    }, []);
+    useEffect(() => {
+        if (!session_id) return;
+        http.get(`/api/stripe/${session_id}`)
+            .then(res => {
+                console.log("res: ", res);
+                if (res.status === 200) {
+                    dispatch(emptyCart());
+                    runFireworks();
+                } else
+                    throw new Error("Sorry, your order has been aborted");
+            })
+            .catch(err => dispatch(addAlert({ type: "error", message: formatError(err) })))
+    }, [session_id]);
 
     const handleContact = () => {
         dispatch(showModal({ title: "Contact us", body: <ErrorContext errors={["name", "email", "message"]}><ContactUs /></ErrorContext> }));

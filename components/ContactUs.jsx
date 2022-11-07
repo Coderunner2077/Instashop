@@ -6,6 +6,7 @@ import { useErrorContext } from "../context";
 import { useDispatch } from "react-redux";
 import { hideModal, addAlert } from "../store/actions";
 import { useSession } from "next-auth/react";
+import http from "../lib/http";
 
 const ContactUs = () => {
     const { data: session } = useSession();
@@ -44,25 +45,22 @@ const ContactUs = () => {
         e.preventDefault();
         if (!valid || loading) return;
         setLoading(true);
-        try {
-            const body = { name, email, message };
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
-            const data = await response.json();
-            setLoading(false);
-            if (response.status === 200) {
-                handleSuccess();
-                dispatch(addAlert({ type: "success", message: `Thank you for your message. We'll get back to you within 72 hours` }));
-            }
-            else
-                dispatch(addAlert({ type: "error", message: formatError(data.message) }));
-        } catch (error) {
-            dispatch(addAlert({ type: "error", message: formatError(error) }));
-            setLoading(false);
-        }
+
+        const body = { name, email, message };
+        http.post('/api/contact', body)
+            .then(res => {
+                setLoading(false);
+                if (res.status === 200) {
+                    handleSuccess();
+                    dispatch(addAlert({ type: "success", message: `Thank you for your message. We'll get back to you within 72 hours` }));
+                }
+                else
+                    dispatch(addAlert({ type: "error", message: formatError(res.data.message) }));
+            })
+            .catch(error => {
+                dispatch(addAlert({ type: "error", message: formatError(error) }));
+                setLoading(false);
+            })
     }, [name, email, message, valid]);
 
     return (
