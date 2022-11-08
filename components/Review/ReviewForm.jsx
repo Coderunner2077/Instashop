@@ -51,7 +51,7 @@ const ReviewForm = ({ product, onSent }) => {
         if (error || score < 1 || loading) return
         setLoading(true);
         try {
-            const body = { productId: product._id, comment: value, score };
+            const body = { productId: product.slug.current, comment: value, score };
             const response = await fetch('/api/review', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
