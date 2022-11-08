@@ -204,18 +204,19 @@ export const getStaticPaths = async () => {
 export const getServerSideProps = async ({ params: { slug }, req, res }) => {
     const query = `*[_type == "product" && slug.current == '${slug}'][0]`;
     const productsQuery = `*[_type == "product" && slug.current != '${slug}']`;
-
-    const products = await client.fetch(productsQuery);
-    const product = await client.fetch(query);
-    const reviews = await prisma.review.findMany({
-        where: { productId: product._id },
-        include: {
-            reviewer: {
-                select: { id: true, name: true, image: true }
+    const [products, product, reviews, session] = await Promise.all([
+        client.fetch(productsQuery),
+        client.fetch(query),
+        prisma.review.findMany({
+            where: { productId: slug },
+            include: {
+                reviewer: {
+                    select: { id: true, name: true, image: true }
+                }
             }
-        }
-    });
-    const session = await unstable_getServerSession(req, res, authOptions);
+        }),
+        unstable_getServerSession(req, res, authOptions)
+    ])
 
     return {
         props: {
