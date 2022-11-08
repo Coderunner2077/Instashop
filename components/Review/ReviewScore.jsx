@@ -43,7 +43,7 @@ const ReviewScore = ({ score: defaultScore, id, total, onChange }) => {
             {stars}{halfStar}{emptyStars}
             {total !== undefined && !id && (
                 <p className="text-red-500 cursor-default">
-                    {`(${score}) - ${total} review${total < 2 ? "" : "s"}`}
+                    {`(${score})`}{total > 0 && ` - ${total} review${total < 2 ? "" : "s"}`}
                 </p>
             )}
             {isOwner && (
