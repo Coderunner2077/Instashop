@@ -59,3 +59,7 @@ export const arrayToObject = (keys, value) => {
         obj[key] = value;
     return obj;
 }
+
+export const setLocalStorage = cartItems => {
+    if (typeof window !== 'undefined') localStorage.setItem("insta-cart", JSON.stringify(cartItems));
+}

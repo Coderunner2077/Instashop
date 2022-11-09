@@ -1,23 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from "next/router";
 import { CartIcon, LoginIcon } from "./UI";
 import { IoMdCart } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleCart, setCart } from "../store/actions";
+import { toggleCart, setCart, updateCart } from "../store/actions";
 import { Cart } from ".";
+import http from "../lib/http";
+import { client } from "../lib/client";
 
 import logo from '../assets/easyshop.png';
+import { setLocalStorage } from '../utils';
+import { useSession } from 'next-auth/react';
 
 const Navbar = () => {
     const router = useRouter();
     const { totalQuantity, showCart, cartItems } = useSelector(state => state.cart);
     const dispatch = useDispatch();
+    const timerRef = useRef();
+    const session = useSession();
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && JSON.parse(localStorage.getItem("insta-cart") !== null))
-            dispatch(setCart(JSON.parse(localStorage.getItem("insta-cart"))));
+        if (session && typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("insta-cart")) === undefined || JSON.parse(localStorage.getItem("insta-cart")) === null || JSON.parse(localStorage.getItem("insta-cart")).length < 1))
+            http.get("/api/cart")
+                .then(async ({ data }) => {
+                    console.log("data: ", data);
+                    if (!data || data.length < 1) return setLocalStorage([]);
+                    const query = `*[_type == "product" && slug.current in $slugs]`;
+                    let items = await client.fetch(query, { slugs: data.map(cartItem => cartItem.productId) })
+                    items = items.map(item => ({ ...item, quantity: data.find(cartItem => cartItem.productId === item.slug.current).quantity }));
+                    console.log("items: ", items);
+                    dispatch(setCart(items));
+                })
+        else
+            dispatch(updateCart());
+        return () => clearTimeout(timerRef.current);
     }, []);
 
     return (

@@ -1,12 +1,17 @@
 import React, { useMemo, useCallback } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { emptyCart } from "../../store/actions";
 
 const LoginIcon = () => {
     const { data: session } = useSession();
+    const dispatch = useDispatch();
     const handleClick = useCallback(() => {
-        if (session) signOut();
-        else signIn();
+        if (session) {
+            dispatch(emptyCart());
+            signOut();
+        } else signIn();
     }, [session]);
 
     const icon = useMemo(() => {

@@ -35,7 +35,7 @@ const Cart = () => {
 
     const handleEmpty = () => {
         dispatch(addAlert({ type: "success", message: `Cart has been successfully emptied ` }));
-        dispatch(emptyCart())
+        dispatch(emptyCart(true))
     }
 
     return (

@@ -1,31 +1,27 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/migrate-shadow
+generator client {
+  provider = "prisma-client-js"
 }
 
-generator client {
-  provider        = "prisma-client-js"
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -39,15 +35,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
+  cartItems     CartItem[]
   orders        Order[]
   review        Review[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -58,20 +55,30 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Order  {
-  id          String     @id @default(cuid())
-  productId   String
-  userId      String
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime   @default(now())
+model Order {
+  id         String   @id @default(cuid())
+  productId  String
+  createdAt  DateTime @default(now())
+  customerId String
+  customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
 }
 
-model Review  {
-  id          String     @id @default(cuid())
-  productId   String
-  reviewerId  String
-  reviewer    User       @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
-  comment     String
-  score       Int
-  createdAt   DateTime   @default(now())
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  comment    String
+  createdAt  DateTime @default(now())
+  reviewerId String
+  score      Int
+  reviewer   User     @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  productId String
+  quantity  Int
+  shopperId String
+  shopper   User   @relation(fields: [shopperId], references: [id], onDelete: Cascade)
+
+  @@unique([shopperId, productId])
 }
