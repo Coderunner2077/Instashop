@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BsBagCheckFill } from 'react-icons/bs';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { emptyCart, addAlert } from '../store/actions';
 import { showModal } from "../store/actions";
 import { ContactUs } from "../components";
@@ -9,13 +9,15 @@ import { ErrorContext } from "../context";
 import { useRouter } from "next/router";
 import http from "../lib/http";
 import { formatError } from '../utils';
-import { runFireworks } from '../lib/utils.js';
+import { runFireworks } from "../lib/utils"
 
 const Success = () => {
     const dispatch = useDispatch();
+    const [success, setSuccess] = useState(false);
     const {
         query: { session_id }
     } = useRouter();
+    const { cartItems } = useSelector(state => state.cart);
 
     useEffect(() => {
         if (!session_id) return;
@@ -23,8 +25,16 @@ const Success = () => {
             .then(res => {
                 console.log("res: ", res);
                 if (res.status === 200) {
-                    dispatch(emptyCart());
-                    runFireworks();
+                    if (cartItems)
+                        http.post("/api/order", { cartItems })
+                            .then(res => {
+                                console.log("res.data: ", res.data);
+                                setSuccess(true);
+                                dispatch(emptyCart());
+                                runFireworks();
+                            })
+                            .catch(err => dispatch(addAlert({ type: "error", message: formatError(err) })))
+
                 } else
                     throw new Error("Sorry, your order has been aborted");
             })
@@ -49,11 +59,18 @@ const Success = () => {
                         contact us
                     </button>
                 </p>
-                <Link href="/">
-                    <button type="button" width="300px" className="btn btn-red mt-3">
-                        Continue Shopping
-                    </button>
-                </Link>
+                <p className="flex-x gap-3 mt-3">
+                    <Link href="/order">
+                        <button type="button" width="150px" className="btn btn-link">
+                            View Order
+                        </button>
+                    </Link>
+                    <Link href="/">
+                        <button type="button" width="150px" className="btn btn-red">
+                            Continue Shopping
+                        </button>
+                    </Link>
+                </p>
             </div>
         </div>
     )

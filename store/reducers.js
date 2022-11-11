@@ -91,7 +91,7 @@ export const cartSlice = createSlice({
             state.totalQuantity = 0;
             if (typeof window !== 'undefined') localStorage.clear();
             if (action.payload === true)
-                http.delete("/api/cart").then(res => { console.log("res.data: ", res.data) });
+                http.delete("/api/cart").then(res => { });
         }
     }
 });
