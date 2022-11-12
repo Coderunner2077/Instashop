@@ -2,7 +2,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  content: ['./pages/**/*.{js,ts,jsx,tsx}', './pages/*.{js,ts,jsx,tsx}', './components/*.{js,ts,jsx,tsx}', './components/**/.{js,ts,jsx,tsx}'],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './pages/*.{js,ts,jsx,tsx}', './components/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontSize: {
       xs: '0.75rem',
@@ -46,7 +46,12 @@ module.exports = {
       },
       maxWidth: {
         "150": "150px",
-        "review": "250px"
+        "review": "250px",
+        "300": "300px"
+      },
+      minWidth: {
+        "10": "40px",
+        "180": "180px"
       },
       zIndex: {
         "100": 100,

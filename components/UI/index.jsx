@@ -6,3 +6,6 @@ export { default as Input } from "./Input";
 export { default as LoadingButton } from "./LoadingButton";
 export { default as MuiTextField } from "./MuiTextField";
 export { default as IconLink } from "./IconLink";
+export { default as NavbarProfile } from "./NavbarProfile";
+export { default as ProfileIcon } from "./ProfileIcon";
+export { default as ProfileLink } from "./ProfileLink";
