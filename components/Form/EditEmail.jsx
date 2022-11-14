@@ -59,7 +59,7 @@ const EditEmail = ({ defaultEmail = "", onChange, onSave }) => {
             />
             <div className="w-12 h-full flex-x justify-start">
                 {!editEmail && (
-                    <IconButton onClick={() => setEditEmail(true)} pm="px-2 mx-1" icon={<MdModeEdit size={24} />}>
+                    <IconButton onClick={() => { setEditEmail(true); setFocus(!focus); }} pm="px-2 mx-1" icon={<MdModeEdit size={24} />}>
                         Edit
                     </IconButton>
                 )}
