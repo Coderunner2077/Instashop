@@ -117,7 +117,7 @@ body {
 }
 
 .btn-red {
-    @apply bg-red-600 text-white;
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-4 focus:ring-red-300
 }
 
 .btn-white {
@@ -198,43 +198,6 @@ body {
     @apply border-black group-hover:border-gray-900;
 }
 
-.input-r-rounded {
-    @apply h-full lg:pl-2 border-2 border-blue-500 font-semibold rounded-r-full
-    text-blue-500 outline-none disabled:border-transparent disabled:bg-blue-700 disabled:text-white
-    disabled:cursor-not-allowed focus:outline-none focus:ring-blue-300 focus:ring-1;
-}
-
-.input-r-rounded:focus-within ~ label,
-.input-r-rounded:not(:placeholder-shown) ~ label {
-    @apply transform scale-75 -translate-y-3;
-}
-
-
-textarea.input-r-rounded {
-    @apply rounded-br-none rounded-tr-xl rounded-bl-xl;
-}
-
-textarea.input-r-rounded.rounded-l-full {
-    @apply rounded-xl;
-}
-
-input.error, .input-r-rounded.error, .error {
-    @apply text-red-500 border-red-500 focus:outline-none focus:ring-red-300 focus:ring-2;
-}
-
-.input-r-rounded:focus-within ~ label {
-    @apply text-blue-500;
-}
-
-.input-r-rounded:not(:focus-within) ~ label {
-    @apply transform duration-300 scale-100;
-}
-
-.input-container .input-r-rounded:focus-within ~ label,
-.input-container .input-r-rounded:not(:placeholder-shown) ~ label {
-    @apply transform scale-75 -translate-y-2 z-0 ml-4 px-1 py-0;
-}
-
 .review {
     @apply rounded-3xl py-1 px-3 border cursor-default break-words
          text-white bg-blue-600 hover:bg-blue-700;
@@ -282,10 +245,104 @@ input.error, .input-r-rounded.error, .error {
     @apply font-semibold text-blue-500;
 }
 
+.main {
+    @apply relative w-full h-full select-none overflow-x-hidden flex flex-col;
+}
+
+.section {
+    @apply text-xl text-center flex-y pt-1 flex-grow relative;
+}
+
+.section-layout {
+    @apply h-full w-full flex flex-col md:flex-row justify-around gap-2 md:pr-1;
+}
+
+.form-layout {
+    @apply grid grid-cols-1 gap-y-4 md:gap-y-6 lg:gap-y-8 md:mt-3;
+}
+
+.form-title {
+    @apply my-2 lg:my-5 font-bold bg-gradient-to-r from-red-900 via-red-400 to-red-900 text-white py-1 px-3 rounded-full shadow ring-red-500;
+}
+
+.btn-green {
+    @apply text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300;
+}
+
+.btn-primary {
+    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300;
+}
+
+.btn-drag {
+    @apply cursor-pointer transition-all duration-200 rounded-3xl hover:rounded-2xl bg-white text-gray-600 hover:font-semibold hover:text-gray-800;
+}
+
+.btn-red-line {
+    @apply  bg-transparent text-red-800 shadow-none hover:font-semibold hover:text-red-600;
+}
+
+.btn-blue {
+    @apply bg-blue-800 text-white hover:bg-white hover:text-blue-900 focus:bg-white
+    focus:text-blue-900 transition-colors;
+}
+
+.fieldset {
+    @apply rounded-3xl bg-gray-300 text-red-700 border-2 border-red-400 px-4 pb-2 m-2 md:m-0;
+}
+
+.fieldset.profile {
+    @apply px-2 xl:px-4;
+}
+
 @layer components {
     .modal {
         @apply bg-blue-200 shadow z-100 relative m-auto rounded-3xl animate-fade-in-down
         max-h-screen max-w-full sm:max-w-screen-sm md:max-w-screen-md xl:max-w-screen-lg;
+    }
+
+    .profile-layout {
+        @apply my-auto pt-1 pb-5 px-1 sm:pl-2 mx-auto lg:mx-2 w-full sm:w-11/12 md:w-2/3 lg:h-11/12 lg:w-1/2 relative;
+    }
+
+    .input-r-rounded {
+        @apply h-full lg:pl-2 border-2 border-blue-500 font-semibold rounded-r-full
+        text-blue-500 outline-none disabled:border-transparent disabled:bg-blue-700 disabled:text-white
+        disabled:cursor-not-allowed focus:outline-none focus:ring-blue-300 focus:ring-1;
+    }
+
+    .input-r-rounded:focus-within ~ label,
+    .input-r-rounded:not(:placeholder-shown) ~ label {
+        @apply transform scale-75 -translate-y-3;
+    }
+
+
+    textarea.input-r-rounded {
+        @apply rounded-br-none rounded-tr-xl rounded-bl-xl;
+    }
+
+    textarea.input-r-rounded.rounded-l-full {
+        @apply rounded-xl;
+    }
+
+    input.error, .input-r-rounded.error, .error {
+        @apply text-red-500 border-red-500 focus:outline-none focus:ring-red-300 focus:ring-2;
+    }
+
+    .input-r-rounded:focus-within ~ label {
+        @apply text-blue-500;
+    }
+
+    .input-r-rounded:not(:focus-within) ~ label {
+        @apply transform duration-300 scale-0 translate-y-2 -translate-x-2;
+    }
+
+    .input-container .input-r-rounded:focus-within ~ label,
+    .input-container .input-r-rounded:not(:placeholder-shown) ~ label {
+        @apply transform scale-75 -translate-y-2 z-0 ml-4 px-1 py-0;
+    }
+
+    .button {
+        @apply select-none font-bold py-2 px-6 text-center drop-shadow cursor-pointer rounded-3xl transition-all duration-200 flex-x gap-1;
     }
 }
 

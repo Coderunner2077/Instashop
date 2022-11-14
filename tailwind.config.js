@@ -41,17 +41,29 @@ module.exports = {
           900: '#2a4365',
         },
       },
+      width: {
+        "11/12": "91.67%",
+      },
       height: {
+        "11/12": "91.67%",
         banner: "500px"
       },
       maxWidth: {
+        "5": "1.25rem",
+        "12": "3rem",
         "150": "150px",
         "review": "250px",
         "300": "300px"
       },
       minWidth: {
         "10": "40px",
-        "180": "180px"
+        "180": "180px",
+        "320": "320px",
+        "410": "410px",
+        "profile": "466px"
+      },
+      maxHeight: {
+        "300": "300px"
       },
       zIndex: {
         "100": 100,
@@ -119,6 +131,14 @@ module.exports = {
           '0%': { opacity: '0', transform: 'translateY(-100vh)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        "turn-left-down": {
+          "0%": { transform: "rotate3d(1, 0, 1, 90deg)" },
+          "100%": { transform: "rotate3d(0)" }
+        },
+        "turn-down": {
+          "0%": { transform: "rotate3d(1, 0, 0, 90deg)" },
+          "100%": { transform: "rotate3d(0)" }
+        },
       },
       animation: {
         'carousel-right': 'carousel-right 30s linear infinite',
@@ -132,8 +152,20 @@ module.exports = {
         "alert-in": "alert-in 3.9s ease-out",
         "alert-out": "alert-out 2.7s ease-out",
         "slide-in-right": "slide-in-right 0.5s ease-out",
-        'fade-in-down': 'fade-in-down 0.3s ease-out'
-      }
+        'fade-in-down': 'fade-in-down 0.3s ease-out',
+        "turn-left-down": "turn-left-down 0.3s ease-out",
+        "turn-down": "turn-down 0.3s ease-out",
+      },
+      transitionProperty: {
+        "height": "height",
+        "width": "width"
+      },
+      transformOrigin: {
+        "0": "0%",
+      },
+    },
+    variants: {
+      borderColor: ["responsive", "hover", "focus", "focus-within"]
     },
   },
   plugins: [require("tailwind-scrollbar")],

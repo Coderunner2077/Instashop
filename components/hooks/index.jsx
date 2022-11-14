@@ -1,4 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useState, useCallback } from "react";
+import http from "../../lib/http";
+import { formatError } from "../../utils";
+import { useDispatch } from "react-redux";
+import { addAlert } from "../../store/actions";
 
 export const useOnClickOutside = (ref, handler) => {
     useEffect(() => {
@@ -21,3 +25,58 @@ export const useOnClickOutside = (ref, handler) => {
         };
     }, [ref, handler]); // Reload only if ref or handler changes
 };
+
+export const useRequest = (url, method = "post", onSuccess, message = "", params = {}, onError = () => { }) => {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null);
+    const dispatch = useDispatch();
+
+    const submit = useCallback(() => {
+        setLoading(true);
+        http.request({ method, url, params })
+            .then((res) => {
+                setLoading(false);
+                setData(res.data);
+                if (res.status % 200 < 99)
+                    onSuccess(res.data);
+                dispatch(addAlert({ type: res.status % 200 < 99 ? "success" : "warning", message: res.data?.message || message }));
+            })
+            .catch(error => {
+                dispatch(addAlert({ type: "error", message: formatError(error) }))
+                if (onError) onError(error);
+                setLoading(false);
+            })
+    }, [url]);
+
+    return { submit, loading, data };
+}
+
+export function useDebounceEffect(
+    fn,
+    waitTime,
+    deps,
+) {
+    useEffect(() => {
+        const t = setTimeout(() => {
+            fn.apply(undefined, deps)
+        }, waitTime)
+
+        return () => {
+            clearTimeout(t)
+        }
+    }, deps)
+}
+
+export function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+        function updateSize() {
+            setSize([window.innerWidth, window.innerHeight]);
+        }
+
+        window.addEventListener("resize", updateSize);
+        updateSize();
+        return () => window.removeEventListener("resize", updateSize);
+    }, []);
+    return size;
+}

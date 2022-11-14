@@ -115,7 +115,7 @@ const Input = (props) => {
             {label &&
                 <label htmlFor={id} className={labelClass}>{label}</label>
             }
-            <div className={`absolute text-xs -bottom-1`}>
+            <div className={`absolute text-xs -bottom-4`}>
                 {errors.length > 0 && (
                     <div className="text-red-500 whitespace-nowrap error" role="alert">
                         {errors[0]}

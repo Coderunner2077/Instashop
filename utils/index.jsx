@@ -1,3 +1,5 @@
+import { centerCrop, makeAspectCrop } from "react-image-crop";
+
 export function timeSince(date) {
     const ago = typeof date === "string" || typeof date === "object" ? new Date(date).getTime() : date;
     const seconds = Math.floor((new Date().getTime() - ago) / 1000);
@@ -63,3 +65,81 @@ export const arrayToObject = (keys, value) => {
 export const setLocalStorage = cartItems => {
     if (typeof window !== 'undefined') localStorage.setItem("insta-cart", JSON.stringify(cartItems));
 }
+
+export function centerAspectCrop(
+    mediaWidth,
+    mediaHeight,
+    aspect,
+) {
+    return centerCrop(
+        makeAspectCrop(
+            {
+                unit: '%',
+                width: 90,
+            },
+            aspect,
+            mediaWidth,
+            mediaHeight,
+        ),
+        mediaWidth,
+        mediaHeight,
+    )
+}
+
+export const crop = (url, aspectRatio, canvas) => {
+    return new Promise((resolve, reject) => {
+        const inputImage = new Image();
+
+        inputImage.crossOrigin = "Anonymous";
+
+        inputImage.addEventListener("error", (error) => reject(error));
+        inputImage.addEventListener("load", () => {
+            const inputWidth = inputImage.naturalWidth;
+            const inputHeight = inputImage.naturalHeight;
+
+            const scaleX = inputImage.naturalWidth / inputImage.width;
+            const scaleY = inputImage.naturalHeight / inputImage.height;
+
+            const inputAspectRatio = inputWidth / inputHeight;
+
+            let outputWidth = inputWidth * scaleX;
+            let outputHeight = inputHeight * scaleY;
+            if (inputAspectRatio > aspectRatio) outputWidth = inputHeight * aspectRatio;
+            else if (inputAspectRatio < aspectRatio) outputHeight = inputWidth * aspectRatio;
+
+            const outputX = (inputWidth - outputWidth) / 2;
+            const outputY = (inputHeight - outputHeight) / 2;
+
+            canvas = canvas ?? document.createElement("canvas");
+
+            const ctx = canvas.getContext("2d");
+            const pxRatio = window.devicePixelRatio;
+            if (!ctx) return reject(new Error("Canvas didn't load"));
+            if (pxRatio === 1)
+                ctx.setTransform(pxRatio, 0, 0, pxRatio, 0, 0);
+            try {
+                ctx.drawImage(inputImage, outputX, outputY, outputWidth, outputHeight, 0, 0, ctx.canvas.width, ctx.canvas.width);
+                ctx.save();
+            } catch (err) { reject(err); }
+            resolve(canvas);
+        });
+
+        inputImage.src = url; //"?not+from+cache+please";
+    });
+};
+
+export const formatFileSize = (size) => {
+    if (size === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "Kb", "Mb", "Gb", "Tb"];
+    const i = Math.floor(Math.log(size) / Math.log(k));
+    return parseFloat((size / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+};
+
+export const getFileType = (fileName) => {
+    return (fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length) || fileName).toLowerCase();
+};
+
+export const getMimeType = (filename) => {
+    return `image/${getFileType(filename)}`;
+};
