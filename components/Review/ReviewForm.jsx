@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Input, LoadingButton } from "../UI";
+import { LoadingButton } from "../UI";
 import { ReviewScore } from ".";
 import { useDispatch } from 'react-redux';
 import { addAlert } from '../../store/actions';
 import { required, vreview } from '../../utils/validate';
 import { formatError } from '../../utils';
+import { Input } from '../Form';
 
 const ReviewForm = ({ product, onSent }) => {
     const [value, setValue] = useState();

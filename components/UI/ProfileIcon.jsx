@@ -1,5 +1,6 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
+import { avatarSrc } from "../../constants";
 
 const ProfileIcon = ({ user, onClick }) => {
     const handleClick = () => {
@@ -10,12 +11,12 @@ const ProfileIcon = ({ user, onClick }) => {
         user ? user.name : ""
     ), [user])
 
-    const src = useMemo(() => user ? user.image : "", [user])
+    const src = useMemo(() => user && user.image ? user.image : avatarSrc, [user])
 
     return (
         <div className={``} onClick={handleClick}>
-            <div className="flex-x cursor-pointer w-12 h-12">
-                <Image src={src} className="avatar" width={30} height={30} />
+            <div className="flex-x cursor-pointer w-10 h-10 avatar">
+                <Image src={src} className="avatar object-cover" width={30} height={30} />
             </div>
         </div>
     );

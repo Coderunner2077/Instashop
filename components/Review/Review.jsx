@@ -6,6 +6,7 @@ import { ReviewScore } from ".";
 import { TbTrashX } from "react-icons/tb";
 import { useDispatch } from 'react-redux';
 import { addAlert } from '../../store/actions';
+import { avatarSrc } from '../../constants';
 
 const Review = ({ review, onDeleted }) => {
     const { data: session } = useSession();
@@ -41,7 +42,7 @@ const Review = ({ review, onDeleted }) => {
         <>
             <div ref={scrollElRef} className={`relative my-0.5 w-full flex items-start group gap-1 text-xs sm:text-sm justify-start ${isNew ? "" : " animate-slide-in-right"}`}>
                 <div className="h-full gap-2 mr-2">
-                    <Image src={review.reviewer.image} alt={"avatar"} className="avatar" width={size} height={size} />
+                    <Image src={review.reviewer.image || avatarSrc} alt={"avatar"} className="avatar object-cover" width={size} height={size} />
                 </div>
                 <div className={`max-w-150 sm:max-w-review flex flex-col ml-1.5 pl-1`}>
                     <div className="text-sky-700 font-bold">{review.reviewer.name}</div>

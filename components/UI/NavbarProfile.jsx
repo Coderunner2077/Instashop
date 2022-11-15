@@ -39,8 +39,8 @@ const NavbarProfile = () => {
                     <span className="block text-sm font-medium truncate cursor-default">{user?.name}</span>
                 </div>
                 <ul className="py-1 flex-y" aria-labelledby="dropdown">
-                    <ProfileLink src={"/profile"} icon={<FaUserAlt size={20} />} text="Profile" position="left-0.5" />
-                    <ProfileLink src="/order" icon={<MdShoppingBag size={24} />} text="My Orders" />
+                    <ProfileLink src={"/profile"} icon={<FaUserAlt size={20} />} text="Profile" position="left-0.5" onClicked={handleHideDropdown} />
+                    <ProfileLink src="/order" icon={<MdShoppingBag size={24} />} text="My Orders" onClicked={handleHideDropdown} />
                     <ProfileLink onClick={handleSignout} icon={<BiLogOutCircle size={24} />} text="Logout" />
                 </ul>
             </div>
