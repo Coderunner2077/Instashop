@@ -9,7 +9,6 @@ import { Label } from ".";
 const EditAvatar = () => {
 	const { avatar, updateAvatar } = useAvatarContext();
 	const [src, setSrc] = useState(avatar);
-	const formData = useRef(null);
 	const [avatarChanged, setAvatarChanged] = useState(false);
 	const [validImage, setValidImage] = useState(true);
 	const [reset, setReset] = useState(false);
@@ -18,10 +17,9 @@ const EditAvatar = () => {
 		setSrc(avatar);
 	}, [avatar]);
 
-	const handleAvatarChange = (src, blob) => {
+	const handleAvatarChange = (src) => {
 		setSrc(src);
 		setValidImage(true);
-		if (blob) formData.current = blob;
 		let bool = true;
 		if (!src && !avatar) bool = false;
 		setAvatarChanged(bool);

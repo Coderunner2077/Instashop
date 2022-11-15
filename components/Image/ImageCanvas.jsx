@@ -18,7 +18,6 @@ const ImageCanvas = ({ src, width, height, smSize = 120,
 			crop(src, 1, canvasRef.current)
 				.then((canvas) => {
 					setUrl(canvas.toDataURL());
-					//onCrop(canvas.toBlob())
 				});
 	}, [src, width, size]);
 

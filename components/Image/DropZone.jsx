@@ -105,7 +105,7 @@ const DropZone = (props) => {
 
 		readFile(validFiles[0]).then((base64) => {
 			setSrc(base64);
-			onChange(base64, validFiles[0]);
+			onChange(base64);
 		});
 	}, [selectedFiles]);
 
