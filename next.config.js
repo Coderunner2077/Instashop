@@ -21,5 +21,8 @@ module.exports = withBundleAnalyzer({
       "avatars.githubusercontent.com",
       "res.cloudinary.com"
     ],
+  },
+  env: {
+    "NEXTAUTH_URL": process.env.NEXTAUTH_URL
   }
 });

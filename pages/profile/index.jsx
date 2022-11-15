@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import { AvatarContext } from "../../context/AvatarContext";
 import { EditUsername, EditAvatar, EditEmail } from "../../components/Form";
 import { SubmitBtn } from "../../components/UI";
@@ -13,6 +14,7 @@ function Profile() {
     const [avatarSrc, setAvatarSrc] = useState("");
     const [email, setEmail] = useState("");
     const mainRef = useRef(null);
+    const router = useRouter();
     const dispatch = useDispatch();
 
     const { data: session } = useSession();
@@ -47,9 +49,9 @@ function Profile() {
     }
 
     const handleProfileDeleted = (id) => {
-        setTimeout(() => {
-            window.location.href = "/";
-        }, 1500);
+        dispatch(hideModal());
+        reloadSession();
+        router.push("/")
     }
 
     const confirmDelete = () => {

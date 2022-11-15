@@ -103,7 +103,7 @@ const ImageCropper = ({ src, type, onComplete, onCancel }) => {
 					<img ref={imgRef}
 						src={src}
 						onLoad={onImageLoad}
-						crossOrigin="anonymous"
+						crossOrigin={`${process.env.NEXTAUTH_URL}`}
 					/>
 				</ReactCrop>
 				{size < 200 && (

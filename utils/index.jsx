@@ -89,8 +89,7 @@ export function centerAspectCrop(
 export const crop = (url, aspectRatio, canvas) => {
     return new Promise((resolve, reject) => {
         const inputImage = new Image();
-
-        inputImage.crossOrigin = "anonymous";
+        inputImage.crossOrigin = process.env.NEXTAUTH_URL;
 
         inputImage.addEventListener("error", (error) => reject(error));
         inputImage.addEventListener("load", () => {

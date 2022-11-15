@@ -42,6 +42,7 @@ export const useRequest = ({ url, method = "post", onSuccess, message = "", para
                 dispatch(addAlert({ type: res.status % 200 < 99 ? "success" : "warning", message: res.data?.message || message }));
             })
             .catch(error => {
+                console.log("error: ", error);
                 dispatch(addAlert({ type: "error", message: formatError(error) }))
                 if (onError) onError(error);
                 setLoading(false);
