@@ -149,7 +149,7 @@ const DropZone = (props) => {
 
 	return (
 		<div className="relative">
-			<div className={`flex justify-start items-center w-28 h-28 sm:w-48 sm:h-48 mx-1 mb-0`}>
+			<div className={`flex justify-start items-center w-40 h-40 sm:w-48 sm:h-48 mx-1 mb-0`}>
 				{!src && (
 					<div
 						className={`drop-container relative transition-all btn-drag pb-1 sm:pt-3 px-2 ml-2 group border-4 border-dashed animate-turn-down ${isDragging ? "bg-gray-400 border-red-500" : "border-sky-500"
@@ -160,9 +160,9 @@ const DropZone = (props) => {
 						onDrop={fileDrop}
 						onClick={fileInputClicked}
 					>
-						<div className="text-sky-500 w-24 sm:w-auto sm:text-xl text-center">
+						<div className="text-sky-500 w-40 sm:w-auto sm:text-xl text-center">
 							<FcUpload size={70} className="block text-center sm:pt-8 my-0 mx-auto max-h-10 sm:max-h-32" />
-							<span className="btn-red-line group-hover:font-semibold group-hover:text-red-600">
+							<span className="bg-transparent text-red-500 shadow-none group-hover:text-red-600">
 								Drag &amp; Drop image here <span className="hidden sm:inline">or click to upload</span>
 							</span>
 						</div>
@@ -178,7 +178,7 @@ const DropZone = (props) => {
 				/>
 				&nbsp;
 				{src && (
-					<div className="relative bottom-2">
+					<div className="relative bottom-2 left-10 sm:left-0">
 						<ImageCanvas
 							src={src}
 							width={displaySize}

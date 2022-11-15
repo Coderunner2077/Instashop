@@ -52,7 +52,7 @@ const EditAvatar = () => {
 						onClick={handleReset}
 						pm="px-2"
 						icon={<BiReset size={24} />}
-						position="absolute bottom-16 left-34 sm:bottom-3 sm:left-3"
+						position="absolute bottom-20 left-52 sm:bottom-3 sm:left-3"
 						color={"btn-blue"}
 					>
 						Reset
@@ -65,7 +65,7 @@ const EditAvatar = () => {
 							onSuccess={handleSuccess}
 							pm="px-2"
 							icon={<RiCheckboxCircleLine size={24} />}
-							position="absolute bottom-9 left-34 sm:-bottom-4 sm:left-3"
+							position="absolute bottom-12 left-52 sm:-bottom-4 sm:left-3"
 							color={"btn-blue"}
 							message={"You successfully changed your profile picture"}
 						>
@@ -79,7 +79,7 @@ const EditAvatar = () => {
 							onSuccess={handleSuccess}
 							pm="px-2"
 							icon={<RiCheckboxCircleLine size={24} />}
-							position="absolute bottom-9 left-34 sm:-bottom-4 sm:left-3"
+							position="absolute bottom-12 left-52 sm:-bottom-4 sm:left-3"
 							color={"btn-blue"}
 							message={"You successfully deleted your profile picture"}
 						>

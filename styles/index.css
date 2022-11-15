@@ -274,7 +274,7 @@ body {
 }
 
 .btn-drag {
-    @apply cursor-pointer transition-all duration-200 rounded-3xl hover:rounded-2xl bg-white text-gray-600 hover:font-semibold hover:text-gray-800;
+    @apply cursor-pointer transition-all duration-200 rounded-3xl hover:rounded-2xl bg-white text-gray-600 hover:text-gray-800;
 }
 
 .btn-red-line {
