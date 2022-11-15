@@ -258,7 +258,7 @@ body {
 }
 
 .form-layout {
-    @apply grid grid-cols-1 gap-y-4 md:gap-y-6 lg:gap-y-8 md:mt-3;
+    @apply grid grid-cols-1 gap-y-4 md:gap-y-6 lg:gap-y-8 sm:mt-6;
 }
 
 .form-title {

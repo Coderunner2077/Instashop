@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IconSubmitBtn, IconButton } from "../UI";
 import { DropZone } from "../Image"
 import { RiCheckboxCircleLine } from "react-icons/ri";
@@ -9,17 +9,19 @@ import { Label } from ".";
 const EditAvatar = () => {
 	const { avatar, updateAvatar } = useAvatarContext();
 	const [src, setSrc] = useState(avatar);
+	const formData = useRef(null);
 	const [avatarChanged, setAvatarChanged] = useState(false);
 	const [validImage, setValidImage] = useState(true);
 	const [reset, setReset] = useState(false);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		setSrc(avatar);
 	}, [avatar]);
 
-	const handleAvatarChange = (src) => {
+	const handleAvatarChange = (src, blob) => {
 		setSrc(src);
 		setValidImage(true);
+		if (blob) formData.current = blob;
 		let bool = true;
 		if (!src && !avatar) bool = false;
 		setAvatarChanged(bool);
@@ -59,7 +61,7 @@ const EditAvatar = () => {
 						<IconSubmitBtn
 							url="/api/profile/avatar"
 							method="put"
-							params={{ avatar: src }}
+							data={{ file: src }}
 							onSuccess={handleSuccess}
 							pm="px-2"
 							icon={<RiCheckboxCircleLine size={24} />}

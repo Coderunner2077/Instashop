@@ -1,21 +1,20 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 import { getCanvasFontSize, getTextWidth } from "../../utils";
 import { useRequest } from "../hooks"
 
-
-const SubmitBtn = ({ url, params = {}, method, message, children, className = "button btn-red p-2", size = 14, onSuccess, width, onError = () => { } }) => {
+const SubmitBtn = ({ url, params = {}, method, message, children, className = "button btn-red p-2", size = 14, onSuccess, width, data = {}, onError = () => { } }) => {
     const buttonRef = useRef(null);
     const spinnerDivRef = useRef(null);
 
-    const { submit, loading, data } = useRequest(url, method, onSuccess, message, params, onError);
+    const { submit, loading } = useRequest({ url, method, onSuccess, message, params, onError, data });
 
     const handleClick = () => {
         if (loading) return;
         submit();
     };
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const button = buttonRef.current; if (!button) return;
         const spinnerDiv = spinnerDivRef.current;
         if (!children) return;
@@ -30,7 +29,6 @@ const SubmitBtn = ({ url, params = {}, method, message, children, className = "b
             if (!siblingOffsetLeft) throw new Error("Failed to get button's text position");
             spinnerDiv.style.left = siblingOffsetLeft - 16 + "px";
             spinnerDiv.style.top = Math.floor(height / 3) + "px";
-            console.log("height ", height);
         } catch (err) { spinnerDiv.style.left = "5px"; }
 
     }, [loading]);

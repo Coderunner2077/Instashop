@@ -79,7 +79,7 @@ const ImageCropper = ({ src, type, onComplete, onCancel }) => {
 	const handleComplete = () => {
 		try {
 			const base64 = getBase64();
-			if (base64) onComplete(base64);
+			if (base64) onComplete(base64, previewCanvasRef.current.toBlob());
 			else handleCancel();
 		} catch (err) { console.log("err", err); }
 	};

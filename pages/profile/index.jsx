@@ -5,6 +5,7 @@ import { SubmitBtn } from "../../components/UI";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { showModal, hideModal } from "../../store/actions";
+import { reloadSession } from "../../utils";
 
 function Profile() {
     const [usernameChanged, setUsernameChanged] = useState(false);
@@ -12,14 +13,12 @@ function Profile() {
     const [avatarSrc, setAvatarSrc] = useState("");
     const [email, setEmail] = useState("");
     const mainRef = useRef(null);
-    const [currentUser, setCurrentUser] = useState();
     const dispatch = useDispatch();
 
     const { data: session } = useSession();
 
     useEffect(() => {
         if (session) {
-            setCurrentUser(session.user);
             setAvatarSrc(session.user.image);
             setUsername(session.user.name);
             setEmail(session.user.email);
@@ -28,8 +27,9 @@ function Profile() {
         }
     }, [session]);
 
-    const handleAvatarSaved = (src) => {
-        setAvatarSrc(src ?? null);
+    const handleAvatarSaved = (user) => {
+        reloadSession();
+        setAvatarSrc(user ? user.image : null);
     };
 
     const handleUsernameSaved = (username) => {
@@ -75,8 +75,8 @@ function Profile() {
             <section className="section">
                 <div className="section-layout md:flex-col lg:flex-row">
                     <div className="article profile-layout sm:min-w-320 md:min-w-410 sm:px-0">
-                        <h2 className="font-h3 form-title mb-7 font-bold">Public Profile</h2>
-                        <div className="form-layout">
+                        <h2 className="font-h3 form-title mb-9 font-bold">Public Profile</h2>
+                        <div className="form-layout mb-2">
                             <AvatarContext.Provider value={{ avatar: avatarSrc, updateAvatar: handleAvatarSaved }}>
                                 <EditAvatar />
                             </AvatarContext.Provider>

@@ -26,12 +26,10 @@ const Navbar = () => {
         if (session && typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("insta-cart")) === undefined || JSON.parse(localStorage.getItem("insta-cart")) === null || JSON.parse(localStorage.getItem("insta-cart")).length < 1))
             http.get("/api/cart")
                 .then(async ({ data }) => {
-                    console.log("data: ", data);
                     if (!data || data.length < 1) return setLocalStorage([]);
                     const query = `*[_type == "product" && slug.current in $slugs]`;
                     let items = await client.fetch(query, { slugs: data.map(cartItem => cartItem.productId) })
                     items = items.map(item => ({ ...item, quantity: data.find(cartItem => cartItem.productId === item.slug.current).quantity }));
-                    console.log("items: ", items);
                     dispatch(setCart(items));
                 })
         else

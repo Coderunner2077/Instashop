@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { crop } from "../../utils";
 import { useWindowSize } from "../hooks";
 
@@ -13,8 +13,13 @@ const ImageCanvas = ({ src, width, height, smSize = 120,
 		return windowSize[0] < 640 ? smSize : width;
 	}, [windowSize, width]);
 
-	useLayoutEffect(() => {
-		if (src && canvasRef.current) crop(src, 1, canvasRef.current).then((canvas) => setUrl(canvas.toDataURL()));
+	useEffect(() => {
+		if (src && canvasRef.current)
+			crop(src, 1, canvasRef.current)
+				.then((canvas) => {
+					setUrl(canvas.toDataURL());
+					//onCrop(canvas.toBlob())
+				});
 	}, [src, width, size]);
 
 	const handleClick = (e) => {

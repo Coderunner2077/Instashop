@@ -14,10 +14,15 @@ const IconSubmitBtn = (props) => {
 		color = "btn-white",
 		message = "",
 		onError,
-		method
+		method,
+		headers = {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		data = {}
 	} = props;
 
-	const { submit, loading, data } = useRequest(url, method, onSuccess, message, params, onError);
+	const { submit, loading } = useRequest({ url, method, onSuccess, message, params, onError, headers, data });
 
 	const handleClick = () => {
 		if (loading) return;

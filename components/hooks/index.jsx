@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import http from "../../lib/http";
 import { formatError } from "../../utils";
 import { useDispatch } from "react-redux";
@@ -26,17 +26,17 @@ export const useOnClickOutside = (ref, handler) => {
     }, [ref, handler]); // Reload only if ref or handler changes
 };
 
-export const useRequest = (url, method = "post", onSuccess, message = "", params = {}, onError = () => { }) => {
+export const useRequest = ({ url, method = "post", onSuccess, message = "", params = {}, data = {}, onError = () => { }, headers }) => {
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(null);
+    const [resData, setResData] = useState(null);
     const dispatch = useDispatch();
 
     const submit = useCallback(() => {
         setLoading(true);
-        http.request({ method, url, params })
+        http.request({ method, url, params, headers, data })
             .then((res) => {
                 setLoading(false);
-                setData(res.data);
+                setResData(res.data);
                 if (res.status % 200 < 99)
                     onSuccess(res.data);
                 dispatch(addAlert({ type: res.status % 200 < 99 ? "success" : "warning", message: res.data?.message || message }));
@@ -48,7 +48,7 @@ export const useRequest = (url, method = "post", onSuccess, message = "", params
             })
     }, [url]);
 
-    return { submit, loading, data };
+    return { submit, loading, data: resData };
 }
 
 export function useDebounceEffect(
@@ -69,7 +69,7 @@ export function useDebounceEffect(
 
 export function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
-    useLayoutEffect(() => {
+    useEffect(() => {
         function updateSize() {
             setSize([window.innerWidth, window.innerHeight]);
         }

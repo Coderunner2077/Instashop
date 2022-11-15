@@ -6,7 +6,7 @@ import { showModal, hideModal, addAlert } from "../../store/actions";
 import { useAvatarContext } from "../../context/AvatarContext";
 
 import { validateFileNumber, validateFileType, validateFileSize } from "../../utils/validateFile";
-import { formatFileSize, getReadFile, getMimeType } from "../../utils";
+import { formatFileSize, readFile, getMimeType } from "../../utils";
 
 import { FcUpload } from "react-icons/fc";
 import { ImCross } from "react-icons/im";
@@ -57,7 +57,6 @@ const DropZone = (props) => {
 		}
 		for (const file of files) {
 			if (!validateFileType(file)) {
-				console.log("error: ", errorMessage);
 				setErrorMessage("File type not permitted");
 				onError();
 			} else if (!validateFileSize(file, maxSize)) {
@@ -97,14 +96,16 @@ const DropZone = (props) => {
 		if (fileInputRef.current?.files) fileInputRef.current.value = "";
 	}, [reset]);
 
+
+
 	useEffect(() => {
 		const validFiles = selectedFiles.filter((file) => file.invalid !== true);
 		setValidFiles(validFiles);
 		if (!validFiles.length) return;
 
-		getReadFile(validFiles[0]).then((base64) => {
+		readFile(validFiles[0]).then((base64) => {
 			setSrc(base64);
-			onChange(base64);
+			onChange(base64, validFiles[0]);
 		});
 	}, [selectedFiles]);
 

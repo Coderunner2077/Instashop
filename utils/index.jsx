@@ -30,7 +30,7 @@ export function timeSince(date) {
 }
 
 export const formatError = (error) => {
-    return error.message || error.response?.message || error.response?.data?.message
+    return error.response?.data?.message || error.message || error.response?.message
 };
 
 export function getCssStyle(element, prop) {
@@ -90,7 +90,7 @@ export const crop = (url, aspectRatio, canvas) => {
     return new Promise((resolve, reject) => {
         const inputImage = new Image();
 
-        inputImage.crossOrigin = "Anonymous";
+        inputImage.crossOrigin = "anonymous";
 
         inputImage.addEventListener("error", (error) => reject(error));
         inputImage.addEventListener("load", () => {
@@ -142,4 +142,19 @@ export const getFileType = (fileName) => {
 
 export const getMimeType = (filename) => {
     return `image/${getFileType(filename)}`;
+};
+
+export const readFile = (file) => {
+    if (!file) return Promise.reject(new Error("Empty file"));
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
+
+export const reloadSession = () => {
+    const event = new Event("visibilitychange");
+    document.dispatchEvent(event);
 };
