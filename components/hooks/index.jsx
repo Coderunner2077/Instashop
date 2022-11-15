@@ -46,7 +46,7 @@ export const useRequest = ({ url, method = "post", onSuccess, message = "", para
                 if (onError) onError(error);
                 setLoading(false);
             })
-    }, [url]);
+    }, [url, data, params]);
 
     return { submit, loading, data: resData };
 }

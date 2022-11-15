@@ -1,7 +1,7 @@
-import prisma from '../../../../lib/prisma';
-import cloudinary from "../../../../lib/cloudinary";
-import { checkAuth } from '../../../../lib/utils';
-import { formatError } from '../../../../utils';
+import prisma from '../../../lib/prisma';
+import cloudinary from "../../../lib/cloudinary";
+import { checkAuth } from '../../../lib/utils';
+import { formatError } from '../../../utils';
 
 export default async function handle(req, res) {
     let session;
@@ -60,7 +60,7 @@ export default async function handle(req, res) {
         else return errResponse;
 
     } else {
-        res.setHeader('Allow', 'PUT');
+        res.setHeader('Allow', ['PUT', 'DELETE']);
         res.status(405).end('Method Not Allowed');
     }
 }

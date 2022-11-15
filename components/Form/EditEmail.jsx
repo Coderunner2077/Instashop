@@ -78,7 +78,7 @@ const EditEmail = ({ defaultEmail = "", onChange, onSave }) => {
                             <IconSubmitBtn
                                 url="/api/profile/email"
                                 method="put"
-                                params={{ email }}
+                                data={{ email }}
                                 onSuccess={handleSuccess}
                                 pm="px-2"
                                 icon={<RiCheckboxCircleLine size={24} />}

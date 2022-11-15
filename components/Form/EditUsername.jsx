@@ -23,8 +23,8 @@ const EditUsername = ({ defaultUsername = "", onChange, onSave }) => {
 	const handleSuccess = (user) => {
 		setUnsavedChanges(false);
 		setEditUsername(false);
-		setUsername(user.username);
-		onSave(user.username);
+		setUsername(user.name);
+		onSave(user.name);
 	};
 
 	const handleReset = () => {
@@ -71,7 +71,7 @@ const EditUsername = ({ defaultUsername = "", onChange, onSave }) => {
 							<IconSubmitBtn
 								url="/api/profile/name"
 								method="put"
-								params={{ username }}
+								data={{ name: username }}
 								onSuccess={handleSuccess}
 								pm="px-2"
 								icon={<RiCheckboxCircleLine size={24} />}
