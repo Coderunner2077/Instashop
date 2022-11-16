@@ -157,3 +157,9 @@ export const reloadSession = () => {
     const event = new Event("visibilitychange");
     document.dispatchEvent(event);
 };
+
+export const localeDate = (date, showTime, options) => {
+    let locale = new Date(date).toLocaleDateString(undefined, options);
+    if (showTime) locale = `${locale} at ${new Date(date).toLocaleTimeString(undefined, { formatMatcher: "basic" }).replace(/\b(\d\d:\d\d):\d\d\b/, "$1")}`;
+    return locale;
+}

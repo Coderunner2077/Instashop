@@ -7,17 +7,20 @@ export default async function handle(req, res) {
 
     const session = await getSession({ req });
 
+    console.log("session: ", session)
+
     if (!session)
         return res.status(401).json({ message: "This action requires signing in" });
 
     if (req.method === "GET") {
-        const user = await prisma.user.findUnique({
-            where: { id: session.user.id },
-            select: {
-                orders: true
+        const orders = await prisma.order.findMany({
+            where: { customer: { is: { id: session.user.id } } },
+            include: {
+                items: true
             }
         });
-        return res.status(200).json(user.orders);
+        console.log("orders: ", orders)
+        return res.status(200).json(orders);
     } else if (req.method === "POST") {
         const { cartItems } = req.body;
         const items = cartItems.map(cartItem => ({

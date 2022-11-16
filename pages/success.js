@@ -23,12 +23,10 @@ const Success = () => {
         if (!session_id) return;
         http.get(`/api/stripe/${session_id}`)
             .then(res => {
-                console.log("res: ", res);
                 if (res.status === 200) {
                     if (cartItems)
                         http.post("/api/order", { cartItems })
                             .then(res => {
-                                console.log("res.data: ", res.data);
                                 setSuccess(true);
                                 dispatch(emptyCart());
                                 runFireworks();

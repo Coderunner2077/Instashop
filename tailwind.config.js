@@ -165,6 +165,7 @@ module.exports = {
       },
     },
     variants: {
+      scrollbars: ["rounded"],
       borderColor: ["responsive", "hover", "focus", "focus-within"]
     },
   },

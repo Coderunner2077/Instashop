@@ -22,9 +22,11 @@ export default function Signin({ providers }) {
         <>
             <div className="flex-y my-auto min-h-[60vh]">
                 <h3 className="text-blue-900 mb-4 font-h3 text-2xl">Social Login</h3>
-                {Object.values(providers).map((provider) => (
-                    <LoginButton key={provider.name} provider={provider} />
-                ))}
+                {Object.values(providers).map((provider) => {
+                    if (provider.name !== "Google") return (
+                        <LoginButton key={provider.name} provider={provider} />
+                    )
+                })}
             </div>
         </>
     )

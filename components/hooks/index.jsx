@@ -81,3 +81,35 @@ export function useWindowSize() {
     }, []);
     return size;
 }
+
+export const useFetch = ({ url, method = "get", onSuccess, message = "", params = {}, data = {}, onError = () => { }, headers = { "Content-type": "application/json" } }) => {
+    const [loading, setLoading] = useState(false);
+    const [resData, setResData] = useState(null);
+    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
+
+    const query = useCallback(() => {
+        setLoading(true);
+        http.get(url)
+            .then((res) => {
+                setLoading(false);
+                setResData(res.data);
+                if (res.status % 200 < 99 && onSuccess)
+                    onSuccess(res.data);
+                if (message)
+                    dispatch(addAlert({ type: res.status % 200 < 99 ? "success" : "warning", message: res.data?.message || message }));
+            })
+            .catch(error => {
+                setError(error);
+                dispatch(addAlert({ type: "error", message: formatError(error) }))
+                if (onError) onError(error);
+                setLoading(false);
+            })
+    }, [url, data, params]);
+
+    useEffect(() => {
+        query();
+    }, []);
+
+    return { query, loading, data: resData };
+}
