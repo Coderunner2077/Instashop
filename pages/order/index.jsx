@@ -56,6 +56,11 @@ function Order() {
                         <h2 className="font-h3 form-title mb-9 font-bold">My orders</h2>
                         <div className="w-full flex-y mt-5 transition-all duration-500">
                             {loading && <div className="flex-x h-56"><AiOutlineLoading size={80} className="animate-spin text-blue-500" /></div>}
+                            {!loading && (!normalizedOrders || normalizedOrders.length === 0) && (
+                                <h3 className="text-white bg-gray-500 py-2 px-3 rounded-3xl flex-x my-1">
+                                    No orders yet
+                                </h3>
+                            )}
                             {normalizedOrders && normalizedOrders.map(order => (
                                 <div className="flex flex-col justify-start items-start w-11/12 px-2.5 mb-5" key={order.id}>
                                     <h3 className="text-white bg-gray-500 py-2 px-3 rounded-t-3xl flex justify-around w-full">
