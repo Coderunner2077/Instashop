@@ -1,8 +1,13 @@
 import Stripe from 'stripe';
+import { getSession } from 'next-auth/react';
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
+    const session = await getSession({ req });
+
+    if (!session)
+        return res.status(401).json({ message: "This action requires signing in" });
     const id = req.query.id;
 
     try {

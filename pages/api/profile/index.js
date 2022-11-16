@@ -1,14 +1,13 @@
 import prisma from '../../../lib/prisma';
 import cloudinary from "../../../lib/cloudinary";
-import { checkAuth } from '../../../lib/utils';
-import { formatError } from '../../../utils';
+import { getSession } from 'next-auth/react';
 
 export default async function handle(req, res) {
-    let session;
     let errResponse;
-    try {
-        session = await checkAuth(req, res);
-    } catch (error) { errResponse = res.status(401).json({ message: formatError(error) }) }
+    const session = await getSession({ req });
+
+    if (!session)
+        return res.status(401).json({ message: "This action requires signing in" });
 
     let user = session.user;
     let result;
