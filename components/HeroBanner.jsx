@@ -17,7 +17,7 @@ const HeroBanner = ({ bannerData }) => {
                     </Link>
                     <div className="desc right-[10%] bottom-[5%] md:bottom-14">
                         <h5 className="mb-3 font-bold text-base text-end"><span className="lg:p-2 lg:bg-white lg:bg-opacity-60 lg:rounded-3xl">Description</span></h5>
-                        <p className="text-black font-thin text-end lg:text-white lg:p-1 lg:bg-blue-500 lg:bg-opacity-60 lg:rounded-3xl">{bannerData.desc}</p>
+                        <p className="text-black font-thin text-end lg:text-white lg:py-1 lg:pl-1 lg:pr-3 lg:bg-blue-500 lg:bg-opacity-60 lg:rounded-3xl">{bannerData.desc}</p>
                     </div>
                 </div>
             </div>
