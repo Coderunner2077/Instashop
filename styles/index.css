@@ -2,12 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
 *,
 *::before,
 *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+.roboto {
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -175,11 +181,7 @@ body {
 }
 
 .login-btn {
-    @apply flex-x text-white h-10 rounded w-64 mb-3;
-}
-
-.login-google {
-    @apply bg-red-800 hover:bg-red-900;
+    @apply flex-x text-white h-10 rounded w-48 mb-3 text-sm;
 }
 
 .login-github {
@@ -187,11 +189,7 @@ body {
 }
 
 .login-icon {
-    @apply w-10 h-full py-2 border-r;
-}
-
-.google-icon {
-    @apply border-red-900 group-hover:border-yellow-900;
+    @apply w-12 h-full p-2 border-r;
 }
 
 .github-icon {

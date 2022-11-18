@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { getProviders, signIn, useSession } from "next-auth/react";
-import { TiSocialGooglePlus, TiSocialGithub } from "react-icons/ti";
+import { TiSocialGithub } from "react-icons/ti";
+import { FcGoogle } from "react-icons/fc"
 import { useDispatch } from "react-redux";
 import { addAlert } from "../../store/actions";
 import { useRouter } from "next/router";
@@ -75,14 +76,14 @@ const LoginButton = ({ provider, onClick }) => {
 
     return (
         provider.name === "Google" ?
-            <button className="login-btn login-google group" onClick={() => onClick(provider.id)}>
-                <TiSocialGooglePlus size={28} className="login-icon google-icon" />
-                <span className="w-full">Sign in with {provider.name}</span>
+            <button className="login-btn group border border-google hover:border-google-dark bg-google hover:bg-google-dark" onClick={() => onClick(provider.id)}>
+                <FcGoogle size={28} className="login-icon google-icon bg-white p-[8dp] group-hover:bg-gray-100" />
+                <span className="w-full roboto">Sign in with {provider.name}</span>
             </button>
             :
             <button className="login-btn login-github group" onClick={() => onClick(provider.id)}>
                 <TiSocialGithub size={28} className="login-icon github-icon" />
-                <span className="w-full">Sign in with {provider.name}</span>
+                <span className="w-full roboto">Sign in with {provider.name}</span>
             </button>
     )
 }
