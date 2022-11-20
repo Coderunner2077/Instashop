@@ -30,7 +30,7 @@ const Login = () => {
 				if (res.status === 200) {
 					setRedirect(true);
 				} else
-					dispatch(addAlert({ type: "warning", message: formatError(res.data) }));
+					dispatch(addAlert({ type: "error", message: res.error === "CredentialsSignin" ? "Incorrect username and/or password" : "Unable to authenticate du to server error" }));
 
 			})
 			.catch(err => {

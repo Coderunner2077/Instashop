@@ -86,6 +86,7 @@ export const authOptions = (req, res) => ({
                 }
                 catch (err) {
                     console.log("Authorize error:", err);
+                    return null;
                 }
             }
         })
@@ -101,7 +102,6 @@ export const authOptions = (req, res) => ({
                 if (user) {
                     const sessionToken = randomUUID()
                     const sessionExpiry = fromDate(10 * 60 * 24 * 30)
-
                     await adapter.createSession({
                         sessionToken,
                         userId: user.id,
