@@ -52,7 +52,7 @@ export default async function handler(req, res) {
                 })
 
                 if (user && account) {
-                    res.status(200).json({
+                    res.status(201).json({
                         id: user.id,
                         name: user.name,
                         username: user.username,
