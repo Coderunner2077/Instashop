@@ -55,8 +55,8 @@ export default function Signin({ providers }) {
     return (
         <>
             <div className="flex-y my-auto min-h-[60vh] divide-y-2 divide-gray-400 gap-2">
-                <div className="flex-y">
-                    <h3 className="text-blue-900 mb-2 font-h3 text-2xl">Github Login</h3>
+                <div className="flex-y mb-2">
+                    <h3 className="text-blue-900 my-3 font-h3 text-2xl">Github Login</h3>
                     {oauthProviders.map((provider) => {
                         return (
                             <LoginButton key={provider.name} provider={provider} onClick={handleClick} />

@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { AvatarContext } from "../../context/AvatarContext";
-import { EditUsername, EditAvatar, EditEmail } from "../../components/Form";
+import { EditField, EditAvatar, EditEmail, EditUsername } from "../../components/Form";
 import { SubmitBtn } from "../../components/UI";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { showModal, hideModal } from "../../store/actions";
 import { reloadSession } from "../../utils";
+import { required, vname, vusername } from "../../utils/validate";
 
 function Profile() {
-    const [usernameChanged, setUsernameChanged] = useState(false);
     const [username, setUsername] = useState("");
+    const [name, setName] = useState("");
+
     const [avatarSrc, setAvatarSrc] = useState("");
     const [email, setEmail] = useState("");
     const mainRef = useRef(null);
@@ -22,7 +24,9 @@ function Profile() {
     useEffect(() => {
         if (session) {
             setAvatarSrc(session.user.image);
-            setUsername(session.user.name);
+            if (session.user.username)
+                setUsername(session.user.username);
+            setName(session.user.name);
             setEmail(session.user.email);
             if (!mainRef.current) return;
             mainRef.current.scrollTo(0, 0);
@@ -36,13 +40,11 @@ function Profile() {
 
     const handleUsernameSaved = (username) => {
         setUsername(username);
-        setUsernameChanged(false);
     };
 
-    const handleUsernameChanged = (bool) => {
-        setUsernameChanged(bool);
+    const handleNameSaved = (name) => {
+        setName(name);
     };
-
 
     const handleEmailSaved = (email) => {
         setEmail(email);
@@ -83,7 +85,8 @@ function Profile() {
                                 <EditAvatar />
                             </AvatarContext.Provider>
                             <div className="grid grid-cols-1 gap-6">
-                                <EditUsername defaultUsername={username} onChange={handleUsernameChanged} onSave={handleUsernameSaved} />
+                                <EditField name="name" label="Display name" defaultData={name} onSave={handleNameSaved} validators={[required, vname]} />
+                                {username && <EditField name="username" defaultData={username} onSave={handleUsernameSaved} validators={[required, vusername]} />}
                                 <EditEmail defaultEmail={email} onSave={handleEmailSaved} />
                             </div>
                         </div>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import { reloadSession, localeDate } from "../../utils";
+import { localeDate } from "../../utils";
 import { useFetch } from "../../components/hooks";
 import { client, urlFor } from "../../lib/client";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -22,7 +22,6 @@ function Order() {
             const filteredItems = order.items.filter(item => productIds.includes(item.productId) === false);
             return [...productIds, ...filteredItems.map(item => item.productId)]
         }, []);
-        console.log("productIds: ", productIds);
         return productIds;
     }, [orders]);
 
@@ -43,10 +42,6 @@ function Order() {
             })));
         }
     }, [items]);
-
-    useEffect(() => {
-        console.log("normalizedOrders: ", normalizedOrders);
-    }, [normalizedOrders]);
 
     return (
         <div className="main scrollbar-hide">

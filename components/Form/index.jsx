@@ -6,3 +6,4 @@ export { default as Label } from "./Label";
 export { default as MuiTextField } from "./MuiTextField";
 export { default as Register } from "./Register";
 export { default as Login } from "./Login";
+export { default as EditField } from "./EditField";

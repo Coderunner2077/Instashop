@@ -163,3 +163,7 @@ export const localeDate = (date, showTime, options) => {
     if (showTime) locale = `${locale} at ${new Date(date).toLocaleTimeString(undefined, { formatMatcher: "basic" }).replace(/\b(\d\d:\d\d):\d\d\b/, "$1")}`;
     return locale;
 }
+
+export const capitalizeFirst = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
