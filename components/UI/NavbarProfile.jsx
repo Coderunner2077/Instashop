@@ -34,7 +34,7 @@ const NavbarProfile = () => {
     return (
         <div className="relative" ref={dropdownRef}>
             <ProfileIcon user={user} onClick={handleClick} />
-            <div className={`${display} absolute z-100 w-fit rounded-xl pb-1 -left-12 top-8 my-4 text-base list-none bg-white divide-y divide-gray-100 shadow`} id="dropdown">
+            <div className={`${display} absolute z-100 w-36 rounded-xl pb-1 -left-[52px] top-8 my-4 text-base list-none bg-white divide-y divide-gray-100 shadow`} id="dropdown">
                 <div className="py-3 px-4 text-center flex-x rounded-t-xl relative h-10 bg-red-800 opacity-60 text-white">
                     <span className="block text-sm font-medium truncate cursor-default">{user?.name}</span>
                 </div>

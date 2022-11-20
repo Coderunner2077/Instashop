@@ -35,7 +35,7 @@ export const isEmail = (value) => {
         );
 };
 
-export const vusername = (value) => {
+export const vname = (value) => {
     if (value && value.trim().length < 3)
         return (
             <span className="inline-block" role="alert">
@@ -46,6 +46,52 @@ export const vusername = (value) => {
         return (
             <span className="inline-block" role="alert">
                 {"Too long > 20"}
+            </span>
+        );
+};
+
+export const vusername = (value) => {
+    if (value && value.trim().match(/\s/))
+        return (
+            <span className="inline-block" role="alert">
+                Contains whitespace
+            </span>
+        );
+    else if (value && value.trim().length < 6)
+        return (
+            <span className="inline-block" role="alert">
+                {"Too short < 6"}
+            </span>
+        );
+    else if (value.trim().length > 20)
+        return (
+            <span className="inline-block" role="alert">
+                {"Too long > 20"}
+            </span>
+        );
+};
+
+
+export const vpassword = (value) => {
+    if (value && value.trim().length < 6)
+        return (
+            <span className="inline-block" role="alert">
+                {"Too short < 6"}
+            </span>
+        )
+    else if (value && value.length > 40)
+        return (
+            <span className="inline-block" role="alert">
+                {"Too long > 40"}
+            </span>
+        );
+};
+
+export const vrepeatpassword = (value, password) => {
+    if (value && value !== password)
+        return (
+            <span className="inline-block" role="alert">
+                Passwords don't match
             </span>
         );
 };

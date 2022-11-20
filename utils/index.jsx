@@ -30,7 +30,7 @@ export function timeSince(date) {
 }
 
 export const formatError = (error) => {
-    return error.response?.data?.message || error.message || error.response?.message
+    return error.response?.data?.message || error.response?.message || error.message
 };
 
 export function getCssStyle(element, prop) {

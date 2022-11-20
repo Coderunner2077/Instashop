@@ -9,6 +9,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from "next/link";
+import { ErrorContext } from "../../context";
+import { Register } from "../../components/Form";
 
 export default function Signin({ providers }) {
     const [checked, setChecked] = useState(true);
@@ -21,6 +23,14 @@ export default function Signin({ providers }) {
     const dispatch = useDispatch();
 
     const errorLabel = useMemo(() => "text-red-500 border-red-300", []);
+    const oauthProviders = useMemo(() => {
+        return Object.values(providers).filter(provider => provider.name !== "credentials");
+    }, [providers]);
+
+    const credentialProvider = useMemo(() => {
+        return Object.values(providers).filter(provider => provider.name === "credentials")[0]
+    }, [providers]);
+
 
     useEffect(() => {
         if (query.error)
@@ -45,12 +55,20 @@ export default function Signin({ providers }) {
     return (
         <>
             <div className="flex-y my-auto min-h-[60vh]">
-                <h3 className="text-blue-900 mb-4 font-h3 text-2xl">Social Login</h3>
-                {Object.values(providers).map((provider) => {
-                    return (
-                        <LoginButton key={provider.name} provider={provider} onClick={handleClick} />
-                    )
-                })}
+                <div className="flex-y divide-y">
+                    <h3 className="text-blue-900 mb-4 font-h3 text-2xl">Social Login</h3>
+                    {oauthProviders.map((provider) => {
+                        return (
+                            <LoginButton key={provider.name} provider={provider} onClick={handleClick} />
+                        )
+                    })}
+                </div>
+                <div className="flex-y">
+                    <ErrorContext errors={["name", "username", "password", "samePassword"]}>
+                        <Register checked={checked} />
+                    </ErrorContext>
+                </div>
+
                 <div className="sm:mt-2">
                     <FormGroup>
                         <FormControlLabel control={

@@ -215,7 +215,7 @@ export const getServerSideProps = async ({ params: { slug }, req, res }) => {
                 }
             }
         }),
-        unstable_getServerSession(req, res, authOptions)
+        unstable_getServerSession(req, res, authOptions(req, res))
     ])
 
     return {
