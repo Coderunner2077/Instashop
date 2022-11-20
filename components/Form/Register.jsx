@@ -60,7 +60,7 @@ const Register = ({ checked }) => {
             <MuiTextField onChange={(value) => setName(value)}
                 validators={[required, vname]} label="Display Name" onError={nameError}
             />
-            <MuiTextField type="username" onChange={(value) => setUsername(value)}
+            <MuiTextField type="text" onChange={(value) => setUsername(value)}
                 validators={[required, vusername]} label="Username" onError={usernameError}
             />
             <MuiTextField type="password" onChange={(value) => setPassword(value)}

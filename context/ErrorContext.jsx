@@ -1,9 +1,9 @@
-import React, { useState, useMemo, createContext, useContext } from "react";
+import React, { useState, useMemo, createContext, useContext, useEffect, useCallback } from "react";
 import { arrayToObject } from "../utils";
 
 
 export const errorContext = createContext({
-    valid: true,
+    valid: false,
     updateErrors: (errors) => { },
     useErrorCallbacks: () => { }
 });
@@ -29,9 +29,13 @@ const ErrorContext = ({ children, errors: defaultErrors }) => {
             for (const key in errors)
                 validators[`${key}Error`] = (bool) => updateError(key, bool);
             return validators;
-        }, [])
+        }, [errors])
 
     }
+
+    useEffect(() => {
+        setErrors(arrayToObject(defaultErrors, true));
+    }, [defaultErrors]);
 
     return <errorContext.Provider value={{ valid, updateErrors, useErrorCallbacks }}>{children}</errorContext.Provider>;
 }
